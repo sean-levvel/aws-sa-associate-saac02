@@ -75,7 +75,7 @@ Resources: (dictionary)
 ## IPV4 addressing 
 - Decimal Binary
 
-| Position  | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
-| :---: |:---:| :---:| | :---: |:---:| :---:| | :---: |:---:| :---:|
-| Binary Position Value | 128 | 64 | 32 | 16 | 8 | 4 | 2 | 1 |
-| Binary Value | | | | | | | |
+| Position              | 1     |     2 |     3 |     4 |     5 | 6     | 7     | 8     |
+|   :---:               | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| Binary Position Value | 128   | 64    | 32    | 16    | 8     | 4     | 2     | 1     |
+| Binary Value          |       |       |       |       |       |       |       |       |
