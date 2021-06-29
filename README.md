@@ -6,3 +6,75 @@ If you find something wrong feel free to let me know at  saac02-feedback@cantril
 if you want to help fix something, feel free to submit a PR with your suggested fixes and I'll review
 
 If you want to use any portion of this repo in your own projects, just make sure you are aware of the license terms ... and I'd appreciate a friendly heads-up :)
+
+
+# aws accounts
+- many companies use many aws accounts. 
+- container for identities (resource) and resources 
+- every account has an account root user - requires unique email address and credit card
+- IAM - users, groups, and roles and also be created and given full and limited permissions (identity and access management)
+
+# cli tips
+- add user profile to your aws CLI
+    ` aws configure --profile iamadmin-prod ` # This adds a profile to your aws cli.
+
+# cloud computing
+Set of 5 conditions that makes a platform a "cloud"
++ taken from NIST - national institute of standards and technology - 800-145
+- 1. on demand self service - you can provision capabilities as needed **without requiring human interaction**.
+- 2. Broad network access - Capabilities are available over the **network** and accessed through **standard mechanisms**. 
+- 3. Resource Pooling - there is a sense of **location independence** no **control or knowledge** over the exact **location** of the resources. Resources are **pooled** to server multiple consumers using a **multi-tenant model**
+- 4. Rapid Elasticity - Capabilities can be **elastically provisioned** and **released** to scale **rapidly** outward and inward with demand. "To the consumer, the capabilities available for provisioning often **appear** to be **unlimited**. 
+- 5. Measured Service - Resource usage can be **monitored, controlled reported and billed** 
+
+## Public vs Private vs Multi vs Hybrid Cloud
+* Public Cloud - using 1 public cloud
+* private cloud - using on-premisies **real** cloud
+* Multi-Cloud - using **more than 1** public cloud
+* hybrid cloud - Public and Private Clouds 
+* hybrid cloud is NOT public cloud + legacy on-premis, that is a Hybrid network 
+
+## Cloud Service - X as a Service
+* Application Stack - Data/runtime/container/O.S./Virtualization/Servers/Infrastructure/
+* on premises - manage the entire stack, hosting, and costs 
+* ![Alt text](/screenshots/CloudServiceModel.jpg?raw=true "Cloud Service Model")
+
+# YAML
+* human readable for data serialization - human readable 
+* unordered collection key:value pairs, each key has a value
+* lists - ordered set of value - lists also have "-" hyphen 
+* dictionary - data structure - 
+```
+Resources: (dictionary)
+    s3bucket: (key which is also a dictionary)
+        Type: "AWS::S3::Bucket" (proprety value string value )
+        Properties: (dictionary containing)
+            BucketName: "ac1337catpics" (key with the value of)
+```
+
+# JSON
+* lightweight data-interchange format, easy for humans to ead and write, its easy for machines to prase and generate. 
+* two main elements 
+- Object, unordered set of key: value pairs enclosed by {&}
+- Array, ordered collection of values, separated by commas & enclosed 
+
+# OSI
+- Physical - voltage and medium 
++ Data - Frames unique Hardware (MAC) - 48 bits in hex and 24 bits for manufacturer - OUI - Control access to the physical medium
+1. Preamble 56 bits
+2. SFD 8 bits - 
+3. destination mac
+4. Source Mac
+5. ET EtherType - Protocol - 
+6. Payload - Contains the data by the protocol - ethernet frame
+7. FCS - Corruption Check
+- carrier sense multiple access (CSMA) / CD (collision detection)
+- Encapsulation - inside a frame and the payload is extracted from the frame - encapsulated 
+- switches understand frames and mac addresses. they maintain a mac address table, which starts off empty. as the switch receives frames on its ports, it learns which  devices are connected and populates the mac address table 
+- unicast 1:1 and broadcast 1:all 
+## IPV4 addressing 
+- Decimal Binary 
+| Position  | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+| :-: |:-:| :-:|
+| Binary Position Value | 128 | 64 | 32 | 16 | 8 | 4 | 2 | 1 |
+| Binary Value | | | | | | | |
