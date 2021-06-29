@@ -73,7 +73,8 @@ Resources: (dictionary)
 - switches understand frames and mac addresses. they maintain a mac address table, which starts off empty. as the switch receives frames on its ports, it learns which  devices are connected and populates the mac address table 
 - unicast 1:1 and broadcast 1:all 
 ## IPV4 addressing 
-- Decimal Binary 
+- Decimal Binary
+ 
 | Position  | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
 | :-: |:-:| :-:|
 | Binary Position Value | 128 | 64 | 32 | 16 | 8 | 4 | 2 | 1 |
