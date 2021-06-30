@@ -73,9 +73,19 @@ Resources: (dictionary)
 - switches understand frames and mac addresses. they maintain a mac address table, which starts off empty. as the switch receives frames on its ports, it learns which  devices are connected and populates the mac address table 
 - unicast 1:1 and broadcast 1:all 
 ## IPV4 addressing 
-- Decimal Binary
+- Decimal Binary - Dotted-Decimal Notation 4x0-255
 
 | Position              | 1     |     2 |     3 |     4 |     5 | 6     | 7     | 8     |
 |   :---:               | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | Binary Position Value | 128   | 64    | 32    | 16    | 8     | 4     | 2     | 1     |
 | Binary Value          |       |       |       |       |       |       |       |       |
+
+- ARP - Address resolution protocol (ARP)
+- Network - Cross networking addressing
+- ARP/Route/Route Tables/Routers
+## Transport an Session 
++ TCP/IP and UDP/IP - Transport
+- TCP Segments
+    - Source port, destination Port
+    - Sequence Number - error correction - and ordering
+    - 
