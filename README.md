@@ -88,4 +88,20 @@ Resources: (dictionary)
 - TCP Segments
     - Source port, destination Port
     - Sequence Number - error correction - and ordering
-    - 
+    - acknowledgement (syn/ack)
+    - Flags n things 
+    - window
+    - checksum
+    - urgent pointer 
+    - options , padding
+    - data
+    - three way handshake 
+     - Syn - sets CS
+     - Syn-ack - increment cs+1, picks a random sequence ss (sends segment)
+     - ack cs+2 and ss+1
+- **Stateless firewall would see two things. Outbound, Response TWO rules for each TCP directions (in and out)**
+- **Stateful firewall views seens one thing outbound, implicitly allows the inbound response** 
+# NAT Network Address Translation 
+- Static Nat - 1 priavte to 1 (fixed) public address (IGW)
+- Dynamic Nat - 1 private to 1st available public
+- Port address translation (PAT) - many private to 1 public (NATGW)
