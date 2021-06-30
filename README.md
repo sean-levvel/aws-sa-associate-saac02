@@ -105,3 +105,9 @@ Resources: (dictionary)
 - Static Nat - 1 priavte to 1 (fixed) public address (IGW)
 - Dynamic Nat - 1 private to 1st available public
 - Port address translation (PAT) - many private to 1 public (NATGW)
+- Many:1(priateIP:PublicIP) Architecture The nat device records the source (private) IP and Source Port. Replaces the source IP with the single Public IP and public source port allocated from a pool which allows IP overloading (many to one)
+
+# Subnetting 
+## IPV4
+- 4,294,967,296 total addresses available ipv4
+- * ![Alt text](/screenshots/subnetting-visual.jpg?raw=true "Subnetting")
