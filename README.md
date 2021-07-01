@@ -111,3 +111,64 @@ Resources: (dictionary)
 ## IPV4
 - 4,294,967,296 total addresses available ipv4
 - * ![Alt text](/screenshots/subnetting-visual.jpg?raw=true "Subnetting")
+
+# DDoS
+* distributed - hard to block individual IP/ranges
+* application Layer - http flood
+* protocol attack - Syn flood - doesnt send an ACK - fills up the network resources and the connections cant connect.
+* volumetric - dns amplification
+ - a botnet exploits a protocol where a response is significantly larger than the request. in this case making a spoofed request to dns, dns responds to spoofed IP for our application which is overwhelmed by the amount of data
+
+ # SSL and TLS
+ - TLS ensures privacy via encryption - asymmetric and then symmetric , identity (server/client server) verified - reliable connection protection 
+ - Cipher suites - 
+ - Authentication 
+ - Key exchange 
+
+ # AWS Fundamentals
+ ## Aws Public vs Private Services
+ - private and public - relate to the networking only
+ - which network zone the service is in
+ - aws public zone, directly connected to the internet. IE: s3 bucket - s3 service - hosted in the aws public zone - but doesnt mean you have access to it. 
+ - aws private zone. No direct connectivity to the aws public or public internet. Isolated by default, and can be isolated via VPC - virtual private cloud - ie: ec2 instance 
+ - you can allow selective connections to it via the aws public zone
+
+ ## Aws global infrastructure 
+ - AWS region , full compute storage db ai analytics
+ - edge locations - local distribution points - content is stored in edge locations (CDN)
+ - Geographic Separation - isolated fault domain
+ - geopolitical separation - different governance. 
+ - Region names: code or name
+ - availability zone (multiple locations isolated infrastructure)
+ - services can be placed across multile AV's with VPC - that can work across all AV's
+ - define resilience level
+    - Globally Resilient - data replication across entire regions 
+    - region resilient - rds in Syndney - replicate data to multiple AV's 
+    - AZ Resilient - single av zone service resilient
+
+## VPC 
+- VPC is a regional service that can operate in multiple AV's 
+- Private and Isolated - from other VPCs and public AWS 
+- Default VPC - 1 per region and Custom VPCs - but many custom VPCs
+- VPC cidr defines the start and range of the addresses : its always 172.31.0.0/16
+    - us-east-2a | us-east-2b    | us-east-2c 
+    - configured for one subnet in every AV, its a smaller /20 
+    - subnets assinged a public IPV4 addresses - default vpc they will have public IP addresses
+    - tend to not use them on production services as they are to inflexible. 
+
+## EC2
+- IAAS - Provides Virtual Machines = instances 
+- Private service by-default - uses VCP networking
+- AZ resilient - instance fails if AZ fails
+- sizes and capabilities 
+- on demand billing - per second
+- elastic block storage - EBS
+- running - stopped - terminated 
+- storage is still used even if its in a stopped state - EBS
+- AMI - amazon machine image
+    - attached permissions
+    - public - everyone allowed
+    - owner - implicit allow
+    - explicit - specific aws accounts allowed 
+    - ami contains the boot drive
+    - block device mapping - boot volume or data volume
