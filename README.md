@@ -222,3 +222,55 @@ Three Main Jobs
 
 ## Shared Services 
 - ![Alt text](/screenshots/SharedServices.jpg?raw=true "SharedServices")
+
+## HA VS FT VS DR
+- High Availability vs Fault-Tolerance vs Disaster Recovery 
++ HA - aims ot ensure an agreed level of operational performance, usually uptime, for a higher than normal period. Minimizing any outages.
++ FT - Fault Tolerance - is the property that enabled a system to continue operating properly in the event of the failure of some (one or more faults within) of its components. 
++ DR - A set of policies, tools and procedures to enable the recovery or continuation of virtual technology infrastructure and systems following a natural or human induced disaster. 
+
+# IAM Identity Policies 
+- Understanding their architecture and read them is required for the exam
+- Grants access or denies access to your aws services
++ ARN: Amazon Resource Name - Uniquely Identify resources within any aws account(s)
++ Effect: action verb to the event: ie: deny,allow
++ Rules: First Priority
+    - Explicitly Denies, nothing can overrule
+    - 2nd Priority: Explicit Allow 
+    - DENY, ALLOW, DENY
+- Inline Policy (json) and Manged Policies - how they are managed. 
+- Managed policy is their own object whic than can be attached to each identity. THey should be used for the normal default operational rights in your business. 
+    - Low management overhead, update json, it updates all the identities asap.
+    - use inline for special or exceptional allow/deny 
+- Customer managed policies that you can modify; default aws policies. 
+
+## IAM users
+- IAM users are an identity used for anything requiring long term aws access. EG: Humans, Applications, Service Accounts 
+- IAM Starts with a principal which represents an entity trying to access an aws account. They can be individual people, computers, services or a group of any of those things.
+    - must been authenticated and authorized. 
+- ARN: arn:partition:service:region:account-id:resource
+- arn: arn:partition:service:region:account-id:resource-type/resource-id
+- only **5,000** IAM user per account (remember the 5000)
+- max of 10 groups
+- Use federation or IAM Roles if its more than 5k IAM users.
+
+## IAM GROUPS
+- IAM groups are containers for Users 
+- You can NOT log into a group - no credentials 
+- Orginization of IAM users. Users can be on multiple groups. 
+- Both in-lined and managed - which allow/deny that a user has directly - all still follow deny/allow/deny
+- no max group membership - trick question around an "all users group" does not exist natively 
+- no groups within group. 
+- groups have users, and permissions.  - 300 groups per account max. can be increased. 
+- groups are not a true identity - they cant be referenced as a principal in a policy 
+
+## IAM Roles - The Tech
+- I am roles are also identities - by an unknown number or multiple aws users, humans, applications or services inside or outside of your aws account. 
+- if you ahve more than 5,000 principals, its good idea to use iam role.
+- TEMPORARY of time then stops
+- role represents a level of access within inside an aws account. Short term.
+- temporary credentials are time limited before they expire 
+- STS secure token service - sts:AssumeRole = Roles
+
+## When to use IAM roles
+- 
