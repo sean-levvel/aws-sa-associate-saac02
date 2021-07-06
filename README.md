@@ -195,3 +195,15 @@ Resources: (dictionary)
 - templates contains resoruces and all the other things 
 - Resources are called logical resources - instance: type: aws::EC2::Instance
 - stack is a living and reprentation of a template - physical resource - you update the resource/ it updates the stack
+
+## Cloud Watch
+Three Main Jobs
+- Collects and Manages operational data - any logging 
+1. Metrics - AWS Products, Apps, On-premises
+    - cpu metrics, need cloud watch agent 
+    - gathers and stores this data - api interface to access the data
+2. CloudWatch Logs - AWS Products, Apps, on-premises
+3. CloudWatch Events - AWS Services & Services 
+    - generate an event to do something on a schedule or based off another event
++ CloudWatch Basics
+- * ![Alt text](/screenshots/CloudWatchBasics.jpg?raw=true "CloudWatchBasics")
