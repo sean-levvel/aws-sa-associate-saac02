@@ -200,10 +200,14 @@ Resources: (dictionary)
 Three Main Jobs
 - Collects and Manages operational data - any logging 
 1. Metrics - AWS Products, Apps, On-premises
-    - cpu metrics, need cloud watch agent 
+    - cpu metrics, memory, disk, need cloud watch agent 
     - gathers and stores this data - api interface to access the data
 2. CloudWatch Logs - AWS Products, Apps, on-premises
 3. CloudWatch Events - AWS Services & Services 
-    - generate an event to do something on a schedule or based off another event
+    - generate an event to do something on a schedule or based off another event via SNS (Simple Notification Service)
 + CloudWatch Basics
 - * ![Alt text](/screenshots/CloudWatchBasics.jpg?raw=true "CloudWatchBasics")
+- Namespace 
+    - Viewed as a "container" to keep the data in that namespace. 
+    - AWS/${Service} ex: AWS/Ec2
+        - can name them anything you want. 
