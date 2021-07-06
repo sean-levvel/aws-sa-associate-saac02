@@ -172,3 +172,26 @@ Resources: (dictionary)
     - explicit - specific aws accounts allowed 
     - ami contains the boot drive
     - block device mapping - boot volume or data volume
+- create key pairs in advanced 
+
+## S3 Buckets
+- Global Storage platform - access from anywhere on the Internet. Regional based/resilient - at rest. 
+- objects and buckets
+    - object key is a file name - value is the data or content being stored. the value of the object can range from zero bytes to 5tb... 
+    - buckets - primary home region unless you configure that data to leave that region - what laws and rules apply to that data
+    - bucket name needs to be globally unique
+    - bucket unlimited bytes of data - flat structure  
+        - there are prefix on names though
+        **Flash Cards**
+        - exam power-up: - Bucket names are globally unique 
+        - 3 and 63 characters all lowercase and no underscores 
+        - limit of 100 buckets in an aws account 1000 hard limit 
+        - unlimited objects in a bucket 0 bytes to 5tb
+        - key = name, value = data
+        - S3 is an object store - not file or block. Windows - file based storage. 
+
+## Cloud Formation 
+- Template written in yaml / json
+- templates contains resoruces and all the other things 
+- Resources are called logical resources - instance: type: aws::EC2::Instance
+- stack is a living and reprentation of a template - physical resource - you update the resource/ it updates the stack
