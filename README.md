@@ -211,3 +211,14 @@ Three Main Jobs
     - Viewed as a "container" to keep the data in that namespace. 
     - AWS/${Service} ex: AWS/Ec2
         - can name them anything you want. 
+- Metric 
+    - Time Ordered Set of Data Points
+    - Alarm - Metric is not in a good state and you can define an action 
+- Dimension
+    - Separate datapoints for different things or perspectives within the same metric. 
+
+### Demo CloudWatch
+- CLI Commands: `sudo amazon-linux-extras install epel -y` & ` sudo yum install stress -y ` 
+
+## Shared Services 
+- ![Alt text](/screenshots/SharedServices.jpg?raw=true "SharedServices")
