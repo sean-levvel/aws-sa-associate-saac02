@@ -264,13 +264,77 @@ Three Main Jobs
 - groups have users, and permissions.  - 300 groups per account max. can be increased. 
 - groups are not a true identity - they cant be referenced as a principal in a policy 
 
-## IAM Roles - The Tech
+## IAM Roles - The Tech - Review
 - I am roles are also identities - by an unknown number or multiple aws users, humans, applications or services inside or outside of your aws account. 
 - if you ahve more than 5,000 principals, its good idea to use iam role.
 - TEMPORARY of time then stops
 - role represents a level of access within inside an aws account. Short term.
 - temporary credentials are time limited before they expire 
 - STS secure token service - sts:AssumeRole = Roles
+- Roles can be Assumed
+- When assumed - temporary credentials are generated
 
-## When to use IAM roles
+## When to use IAM roles - When to use IAM roles - review
+- Within the same AWS account - AWS Lambda - execution role , whever a function is executed 
+- Emergency or out of the usual situation - break glass situation... ie fire alarm 
+- to re-use...On-premises - existing identities active directory - external accounts or identities can not interact with AWS. 
+- Web Identity Federation which uses IAM roles
+- Partner Accounts - use a role in the partner account - get temp security credentials. 
+
+## IAM AWS org
+- Management account, can invite existing standard aws account into the AWS organization. 
+- Change from standard accounts to being member accounts. 
+- Billing is then removed and passed to the management account. aka Payer account - aws account that contains the payment method of the org. 
+- use IAM roles in multi account setups 
+- most orgs use one clean and one account for the logins. 
+
+## AWS Org DEMO Part 1 & 2
+- how to role switch into the production account. 
+- When you create an account within the organization a **role is created within that account which an be role switched into by other accounts within the organization** 
+- If you invite an existing aws account into the organization, then you need to manually add this role.
+
+## SCP Service Control Policies
+- Used to restrict AWS accounts. 
+- Policies document that can be attached to the root container or one or more org units - even individual aws accounts. 
+- Service Policies inherit downward. Or OU with inheritance. 
+- SCP's are account permissions boundaries
+- They limit what the account (including the account root user can do)
+- they dont grant permissions. 
+- Explicit deny always wins. 
+
+## SCP Demo
 - 
+
+## CloudWatch Logs
+- Public Service - AWS Public Zone - Usable from AWS or On Premises
+- Store, Monitor and Access logging data
+- AWS Integrations - ec2, vpc flow logs, lambda, CloudTrail, R53... 
+- Needs connectivity and permissions. 
+- Security normally provided by IAM roles or service roles
+- Custom logs - unified cloud watch agent
+- development kit form AWS and integration it directly into your application
+- It can contain metrics like failed SSH connections then you can create alarms that watch for the metric.
+- Regional Service 
+- Log events inject it into the region YYYMMDDHHMMSS MESSAGE
+    - /var/log/messages - each log log stream is unique, and ordered set
+    - log groups - containers for log streams
+    - log groups also contain, retention and permissions, metric filters
+
+## Cloud Trail
+- Logs API calls/activities as a CloudTrail Event 
+    - by default stores 90 days in Event History
+    - No cost, if 90 days. 
+    - to customize create 1 or more trails
+    - Management events and data events
+- Cloud Trail is a regional service OR can be set to ALL regions TRAIL. 
+- Data events has to be set manually 
+- stores it in json and compresses them into an s3 bucket it can also go into cloud watch logs. (log parser)
+- EXAM -
+    * Enabled by default but 90 days
+    * Trails are how you configure s3 and CWLogs - Default for Trails is to store management events ONLY (creating instance, stopping, logging into the console)
+    * IAM, STS, CloudFront - global services, and that gets logged to the us-east-1
+    * and a trail will need to be enabled to capture that. 
+    * NO REALTIME - there is a delay - 15 mins normally 
+
+## Cloud Trail Demo
+- provides a certain amount of free tier service - only a certain amount of data
