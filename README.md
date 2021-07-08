@@ -351,7 +351,7 @@ Three Main Jobs
     - two main goals: give access to other aws accounts and 
     - ACLs are used, but not recommended. 
     - Block Public Access - 
-* Examp Power Up
+* Exam Power Up
     - If you are granting or Denying permissions on lots of different resources across an aws account, then use Identity Policies
     - single place: IAM - IAM is the only single place where you can control permissions for everything. 
     - Permissions within the same account (no external access) - 
