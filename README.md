@@ -338,3 +338,34 @@ Three Main Jobs
 
 ## Cloud Trail Demo
 - provides a certain amount of free tier service - only a certain amount of data
+
+# S3
+
+## S3 Security
+- S3 is private by default
+- S3 bucket policy aka a form of resource policy 
+    - allow/deny same or different accounts
+    - Resource perspective permissions
+    - Like identity policies but attached to a bucket.  
+    - allow/deny anonymous principals 
+    - two main goals: give access to other aws accounts and 
+    - ACLs are used, but not recommended. 
+    - Block Public Access - 
+* Examp Power Up
+    - If you are granting or Denying permissions on lots of different resources across an aws account, then use Identity Policies
+    - single place: IAM - IAM is the only single place where you can control permissions for everything. 
+    - Permissions within the same account (no external access) - 
+    - if you want to grant a single permission to everybody accessing one resource or everybody in one account, then its much more efficient to use resource policies to control that base level permission. 
+    - Anonymous / external identities from other aws accounts: Resource Policies 
+
+# S3 Static Hosting
+- Index and Error documents are set , HTML files , 
+- Static website hosting endpoint. Generating by region and bucket name. 
+- custom name - bucket name requires the domain
+- offloading - static media hosting , static html
+- out-of-band pages - an error or a status notification system. Maintenance page, change dns the jpoint it to a backup static HTML page / support page. 
+- cost, per gig month fee, transfer fee (data / out) per gig charge 
+- Free
+    - 5 gb
+    - 20k get requests
+    - 2k put requests
