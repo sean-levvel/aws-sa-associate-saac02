@@ -363,7 +363,7 @@ Three Main Jobs
 - Static website hosting endpoint. Generating by region and bucket name. 
 - custom name - bucket name requires the domain
 - offloading - static media hosting , static html
-- out-of-band pages - an error or a status notification system. Maintenance page, change dns the jpoint it to a backup static HTML page / support page. 
+- out-of-band pages - an error or a status notification system. Maintenance page, change dns the point it to a backup static HTML page / support page. 
 - cost, per gig month fee, transfer fee (data / out) per gig charge 
 - Free
     - 5 gb
