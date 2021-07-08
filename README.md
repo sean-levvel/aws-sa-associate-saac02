@@ -369,3 +369,16 @@ Three Main Jobs
     - 5 gb
     - 20k get requests
     - 2k put requests
+## S3 Demo
+
+## Object Versioning & MFA Delete
+- Object is controlled at a bucket level - you can not disabled it again
+    - you can suspend it, and then re-enabled. 
+    - lets you store multiple version of objects within a bucket. Operations which would modify objects generate a new version. 
+    - new object is known as the current object Latest version OR Current Version
+    - individually accessed by specifying the ID. 
+    - delete marker 
+    - you can delete the object with the version number
+    - MFA is required to change bucket versioning state
+    - MFA is required to delete versions
+    - need the Serial Number MFA + Code passed with API calls
