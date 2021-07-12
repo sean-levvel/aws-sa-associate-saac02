@@ -382,3 +382,12 @@ Three Main Jobs
     - MFA is required to change bucket versioning state
     - MFA is required to delete versions
     - need the Serial Number MFA + Code passed with API calls
+
+## S3 Performance Optimization 
+    - Make the upload faster / safer with Multipart Upload
+    - minimum size is for 100MB 
+    - parts can fail and be restarted
+    - improves transfer rate
+    - transfer acceleration - must be enabled for transfer
+        - no periods in name
+    
