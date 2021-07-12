@@ -455,4 +455,27 @@ Three Main Jobs
             --profile iamadmin-general \
             --query Plaintext | base64 --decode > decryptedplans.txt        
         ```
-        
+
+## Object Encryption - PART1
+- Buckets arnt encrypted, objects are
+    - client-side encryption
+    - server side encryption (both are at rest on S3)
+    - Both use in-transit encryption
+- Server side encryption 
+    - Server-Side Encryption with Customer Provided Keys (SSE-C) 
+        - Need an plain text object and a key
+        - when they arrive at teh S3 endpoint | hash is ta ken and attached to the object, then s3 encrypts the object. Then the key is discarded for security. 
+    - Server-Side Encryption with Amazon S3-Managed Keys (SSE-S3)
+        - put just the plaintext artifact 
+        - s3 handles all encryption 
+        - it is the default option
+        - AES-256
+    - Server-Side Encryption with Customer Master Keys (CMKs) Stored in AWS Key Management Service (SSE-KMS)
+        - S3 will create an aws managed customer master key (CMK)
+        - Roles are important, KMS policy and permissions must have decryption
+        - s3 administrators can admin but not have a way to decrypt.
+    - Bucket Default Encryption
+        - x-amz-server-side-encryption PUT header. 
+        - objects will not use encryption unless its passed. 
+
+
