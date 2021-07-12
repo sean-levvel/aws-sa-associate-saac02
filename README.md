@@ -384,10 +384,75 @@ Three Main Jobs
     - need the Serial Number MFA + Code passed with API calls
 
 ## S3 Performance Optimization 
-    - Make the upload faster / safer with Multipart Upload
+- Make the upload faster / safer with Multipart Upload
     - minimum size is for 100MB 
     - parts can fail and be restarted
     - improves transfer rate
     - transfer acceleration - must be enabled for transfer
         - no periods in name
-    
+        - uses edge locations
+        - dns compatible in its naming
+        - picks the closest, best performing S3 edge location
+
+## Encryption 
+- Plaintext - unencrypted data - image and applications 
+- Algorithm - blowfish, aes, rc4, des, rc5, rc6
+- key - "password" 
+- ciphertext - encrypted data - need the key to decrypt 
+- know what Asymmetric is and how it works
+- Signing 
+    - used to verify identity. 
+    - encrypt using your private key
+    - party can use your public key to decrypt to verify identity
+- Steganopraphy 
+    - message of hiding something 
+    - hide a message in a image 
+
+## Key Management Service KMS
+- Regional and Public Service 
+- Public Service, public zone access from anywhere but need permissions
+- can handle symmetric and asymmetric keys (encrypt, decrypt)
+- KMS Keys never leave (provides FIPS 140-2)
+- CMK Customer Master Key - applications, services, and users can use them
+    - logical - ID
+    - backed by physical key material
+    - generated and or imported
+    - CMK can be used for encrypted and decrypt for only up to 4kb of data
+- Data Encryption Key (DEKs)
+    - Generate Data Key works on larger than 4kb
+    - plaintext version first and ciphertext version 
+    - discard the plaintext one
+- Exam PowerUp
+    - CMK's are isolated to a region and never leave. 
+    - They also never leave the KMS service
+    - AWS managed CMK's or Customer Managed CMK's 
+        - Customer Much more configurable 
+    - support key rotation - it cant be disabled every 1095 days (3 years)
+    - CMK's backing key and previous backing keys - aliases
+        - per region - alias no keys are globally
+        - key policies - CMK has a IAM / Principal 
+        - action KMS
+        - identies can manage a key, also may not be able ot use a key
+
+## KMS Demo
+* using kms on CLI
+    -   
+        ```
+            aws kms encrypt \ 
+            --key-id alias/catrobot \ 
+            --plaintext "path to file" \
+            --output text \ 
+            --query CipherTextBlob \
+            --profile iamadmin-general | base64 \ 
+            --decode > not_battleplans.enc
+        ``` 
+
+    - 
+        ``` 
+            aws kms decrypt \
+            --ciphertext-blob fileb://not_battleplans.enc \
+            --output text \
+            --profile iamadmin-general \
+            --query Plaintext | base64 --decode > decryptedplans.txt        
+        ```
+        
