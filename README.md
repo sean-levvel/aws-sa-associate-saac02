@@ -456,7 +456,7 @@ Three Main Jobs
             --query Plaintext | base64 --decode > decryptedplans.txt        
         ```
 
-## Object Encryption - PART1
+## Object Encryption - PART1 and 2
 - Buckets arnt encrypted, objects are
     - client-side encryption
     - server side encryption (both are at rest on S3)
@@ -478,4 +478,47 @@ Three Main Jobs
         - x-amz-server-side-encryption PUT header. 
         - objects will not use encryption unless its passed. 
 
+## Demo Object Encryption
+- 
 
+## Object Storage Classes 
+- S3 Standard - 3 availability zones - 11 9's 
+    - has a milliseconds first byte
+    - standard for frequently access data which is important and none replaceable
+- S3 IA - In frequent access
+    - 3 av's 
+    - first byte is still millisecond
+    - Its cost effective using IA
+    - There is a retrieval fee + transfer fee 
+    - bill minimum duration charge of 30 days 
+    - minimum capacity charge of 128 KB per object 
+    - Should be used for long lived data which is important but where access is infrequent
+- S3 IA - One Zone-IA
+    - does not provide the multi-az resilience model - only one az is used
+    - used for long lived data, which is infrequently accessed, also non CRTICAL data
+    - 
+
+## Object Storage Classes Part 2
+- S3 Glacier 
+    - 3 az
+    - same durability 7 9's. 
+    - 1/5th the cost of s3 standard 
+    - first byte latency = minuets or hours - cold/chilled storage
+    - 40kb min size and 90 day min duration
+- S3 Glacier Deep Archive 
+    - standard is 12 hours
+    - bulk is up to 48 hours
+    - rare or if ever need access   
+    - legal and regulatory requirements, throw old archive data at.
+- S3 Intelligent-Tiering
+    - Intelligent-Tiering monitors and automatically moves any objects not access for 30 days to a low cost infrequent access tier and eventually to archive, or deep archive tiers.
+    - As objects are accessed, they are moved back to the frequent access tier.
+    - no retrieval fees for accessing objects, only a 30 day minimum duration
+    - unknown or uncertain usage, use Intelligent-Tiering
+
+## S3 LifeCylce Configuration
+- Optimize costs
+- Set of rules consist of actions on a bucket, or groups of objects.
+- transition action (s3 standard to IA after 30, IA to glacier after 90 days)
+- Expire action, objects for cost optimization
+- ![Alt text](/screenshots/S3LifecycleConfigurationTransitions.jpg?raw=true "S3 Life Cycle")
