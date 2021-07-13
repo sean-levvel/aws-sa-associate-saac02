@@ -522,3 +522,58 @@ Three Main Jobs
 - transition action (s3 standard to IA after 30, IA to glacier after 90 days)
 - Expire action, objects for cost optimization
 - ![Alt text](/screenshots/S3LifecycleConfigurationTransitions.jpg?raw=true "S3 Life Cycle")
+
+# S3 Replication
+- Cross-Region Replication (CRR)
+- Same-Region Replication (SRR)
+- if its in a different aws account
+    - role is configured for replication
+    - you need an additional requirement, bucket policy to allow the role in the source account to write to its bucket form the origin bucket
+- what to replicate ? 
+    - All objects or a subset of objects (tags, prefix, ect..)
+    - Storage Class - defaults to maintain 
+    - storage class is the same as the destination and origin
+    - ownership - default is the source account
+        - different accounts - by the owned source bucket account
+    - Replication Time Control 
+        - 15 min SLA guaranteed replication 
+        - only use if you have really strict requirements on storage replication
+- Exam Power up
+    - **Replication is not Retroactive & Versioning needs to be ON**
+    - One-way replication Source to Destination only. 
+    - Unencrypted, SSE-S3 & KMS (with extra config)
+    - Source bucket owner needs permissions to objects
+    - No System events, Glacier, or Glacier Deep archive
+    - no deletes are replicated
+    - SRR - Log Aggregation
+    - Prod and Test sync - replicate data dev to prod
+    - Resilience with strict sovereignty 
+    - 
+## DEMO Cross-Region Replication of an S3 Static Website 
+- Disaster Recovery 
+
+## S3 Presigned URLs
+- Presigned URLs are a way that you can give another person or application access to an object inside an s3 bucket using your credentials in a safe and secure way. 
+- can enable put or get request via the iamadmin who generates a presignedURL
+- Exam Power Ups
+    - You can create a URL for an object you ahve no access too
+    - When using the URL, the permissions match the identity which generated it
+    - access denied could mean the generating ID never had access or doesnt know
+    - Dont generate with a role, URL stops working when temporary credentials expire
+    - never a good idea to generate a presigned URL using an IAM role. Generally use an IAM user vs role. 
+
+## S3 Select and Glacier Select
+- Select let you use sql-like statement
+- part of the object pre-filtered by s3
+
+## S3 Events
+- event notifications on a bucket
+- delivered to sns, sqs, lambda functions 
+- Object created (put,post,copy,completemutlipartUpload)
+    - on object creation, send the object to some destination, then have an event driven automated workflow
+- EventBridge is a bit newer and more features. 
+
+## Access Logs
+- access logging can be enabled via the console UI or via PUT Bucket logging
+- S3 Log Delivery Group, bucket acl, allows s3 log delivery group
+- 
