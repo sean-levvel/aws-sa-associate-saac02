@@ -576,4 +576,7 @@ Three Main Jobs
 ## Access Logs
 - access logging can be enabled via the console UI or via PUT Bucket logging
 - S3 Log Delivery Group, bucket acl, allows s3 log delivery group
+
+# Virtual Private Cloud (VPC) Basics
+## Networking Refresher Part 1
 - 
