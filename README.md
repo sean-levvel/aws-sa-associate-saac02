@@ -578,5 +578,34 @@ Three Main Jobs
 - S3 Log Delivery Group, bucket acl, allows s3 log delivery group
 
 # Virtual Private Cloud (VPC) Basics
-## Networking Refresher Part 1
-- 
+## Networking Refresher Part 1 & 2
+- IP - Refresher
+- 10.0.0.0`
+- 172.16 - 172.31.255
+- 192.168.0.0 - 192.168.255
+- /8 A /16 B /32 C
+
+## VPC Sizing and Structure - Part 1 & 2
+- VPC cider / range - need to know what range the VPC will use In advance
+- what size should your VPC be? 
+- are there any networks we cant use? 
+- try to predict the future
+- vpc structure - tiers, and resiliency and AV's 
+- starting point of 10.16 ~ 
+- how many aws regions the aws account will operate in
+    - pre-allocating - reserve 2+ networks per region being used per account
+
+- VPC Sizing
+    - a subnet is in one AV 
+    - **how many availabilty zones your VPC will use**
+    - this decision impacts high availability and resilience and it depends on somewhat on the region that the VPC is in.
+    - generally start with three as the default, because it will work in almost any region, with one spare.
+    - need to split the VPC into at least 4 networks or 4 / 18's 
+    - teir: Web, app, db, spare
+    - ![Alt text](/screenshots/VCPSizing.jpg?raw=true "Structure Example")
+
+- Guidelines
+    1. You consider the business needs
+    2. avoid the ranges that you cant use
+    3. allocate the remainder based on your business Physical, or logical layout, and then decide upon and create VPC and subnet structure from there.
+    4. work either with top down or bottom up, you can start with the minimum subnet size that you need and work up or reverse
