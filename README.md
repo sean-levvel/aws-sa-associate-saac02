@@ -609,3 +609,127 @@ Three Main Jobs
     2. avoid the ranges that you cant use
     3. allocate the remainder based on your business Physical, or logical layout, and then decide upon and create VPC and subnet structure from there.
     4. work either with top down or bottom up, you can start with the minimum subnet size that you need and work up or reverse
+
+## Custom VPCs
+- Nat gateway - which will give private instances outgoing only access
+- Internet gateway which will give resources in the VCP public access
+- bastion  - connect securely into the VPC
+- Regionally Service and ALL Az's in the region 
+- nothing in or out without explicit configuration
+- flexible configuration - simple or multi-tier 
+- hybrid networking
+- default or dedicated tenancy (dedicated hardware)
+    - ipv4 private cidr blocks and public
+    - 1 primary private ipv4 cider block
+    - min /28 max /16
+    - optional secondary ipv4 block
+    - optional single assigned ipv6 /56
+    - dns in a vpc - base ip + 2
+    - Exam - enableDnsHostnames - gives instances DNS Names
+    - enableDnsSupport - enables DNS resolution in VPC 
+
+## VPC Subnets
+- Blue means private subnets, green means public 
+- Subnet: AZ Resilient 
+    - a subnetwork of a VCP - within a particualr AZ
+    - 1 submnet => 1 AZ, 1 AZ => 0+ Subnets
+    - IPV4 CIDR is a subset of the VPC Cider
+    - Cannot overlap with other cidr
+    - Subnets can communicate with other subnets in the VPC
+    - Reserved IP addresses (5 in total)
+        - example: 10.16.16.0/20 (10.16.16.0 => 10.16.31.255)
+        - Network address (10.16.16.0)
+        - Network + 1 (10.16.16.1) - VPC Router (dfg)
+        - Network + 2 (10.16.16.2) - Reserved DNS
+        - Network + 3 (10.16.16.3) - Reserved Future Use
+        - Broadcast address (10.16.31.255 last ip in subnet)
+    - DHCP Option set applied to one VPC at one time - flows to subnets
+
+## VPC Design Demo
+- ipv6 - can be allocated with a /56 CIDEr
+
+## VPC Routing and Internet gateway Bastion Hosts
+- simply routes traffic between subnets and VPC'
+- local always takes priority
+- IGW (internet gateway)
+    - Region Resilient gateway attached to a vpc
+    - you do not need a gateway per av
+    - 1 vpc = 0 or 1 IGW
+    - Internet gateway runs from the border of the VPC and the aws Public zone
+    - its what allows services inside a PVC which are allocated with public IP's to be reached from th einternet.
+    - IGW maintains the public IP
+    - IPV4 has no public IP on the EC2
+- Bastion Host / Jumpbox
+    - incoming management connections arrive there
+    - access internal VPC resources
+    - integrate with SSH
+
+## Network access control lists (NACls)
+- "firewalls that surrounds subnets"
+- in or out of a specific subnet 
+- ephemeral ports - inbound and outbound 
+- nothing is denied by the VPC by default
+- Exam power up
+    - stateless - initiation and response seen as different (need to add two rules)
+    - only impacts data crossing subnet border 
+    - Can explicitly allow and Deny traffic (one particular deny, use ACL)
+    - IP's/network, ports and protocols - no logical resources
+    - NACLs cannot be assigned to AWS resources only subnets
+    - Use with SG's to add explicit Deny bad ip / s nets
+    - One subnet = one NACL at a time
+
+## Security Groups
+- Security groups are assigned to an aws resource (network interface of a aws product)
+- NACLS are stateless (initiation and response)
+- Security groups are stateful 
+    - only one rule is required for bi-directional traffic 
+    - a default security group is created on a VPC
+    - rule is allow all traffic
+    - references itself
+    - have a hidden implicet denied | if its not allowed, its denied. 
+    - you can not explicity deny on a single rule/ip/resource. use ACLs for that.
+- Exam Power up
+    - Stateful - Traffic and Response = same rule
+    - SG's can filter based on AWS logical Resources
+        - Resoruces, other than SG's and even themselves.
+    - Implicit Deny and Explict Allow
+        - No Explicit Deny
+    - NACLs on subnet for any products whic dont work with SG's (eg Nat Gateway's)
+    - NACLs when adding explicit deny (bad ip's, bad actors)
+    - SG's as the default **almost everywhere** 
+
+## Network Address Tanslation (NAT) and NAT Gateways
+- giving a private resource outgoing only access to the internet. 
+- static nat - 1:1 ration
+- ip masquerading - hiding CIDR blocks behind one IP - Classes Inter-domain routing
+- Runs from a **public subnet** - already need a VPC where it has public subnets (internet gatway/and default routes/pointing at the IG)
+- Uses elastic IP's (static ipv4 public)
+- AZ resilient Service (HA in that AZ)
+    - one nat gateway in each AZ that you are using in a VPC
+        - route table to private subnets for each AZ with that NATGW as a target
+- Managed, Scales to 45 gbps, $ Duration & data Volume
+    - NAT Gateway is HA in the AZ, but you need them in each AZ - not the region
+    - enable ec2 as nat: disable source destination checks. 
+    - no bastion
+    - can not do port forwarding
+    - only NACL's - NO Security Groups
+- EC2 - Nat Instance 
+    - if the AZ fails, it fails entirely 
+    - can be cheaper (ie dev/stage)
+- NAT isnt required for IPv6
+    - if you add IPV6 as a route, you get bi-directional connectivity to the aws public zone
+    - will not work with NAT gateway/Nat-Instance
+- SSH Agent Forwarding
+    - generate ssh key pair
+    - public part is added as authorized keys
+    - only used int he initial phase connection
+    - ssh-add - adds it to the ssh-agent service
+    - -A (or ssh agent forwarding)
+
+## NAT Gateway Demo
+- Elastic IP doesn't change 
+- explicitly set a route table with a subnet with that same AZ to enable routing.
+
+# Ec2 Section
+
+## Virtualization 
