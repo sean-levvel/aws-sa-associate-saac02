@@ -759,4 +759,19 @@ Three Main Jobs
     - 5 : Instance Generation 
     - 8xLarge : Instance Size
     - dn - Additional Capabilities 
-- 
+- https://instances.vantage.sh/
+
+## Storage Refresher 
+- Direct (local) attached Storage - Storage on the ECT Host
+- Network Attached storage - volumes delivered over network (EBS)
+- Ephemeral Stroage - Temporary Storage
+- Persistent Storage - Permanent storage - lives on past the lifetime of the instance
+- Block Storage - volume presented to OS as a collection of blocks. 
+    - Mountable, and Bootable 
+- File Storage - Presented as a file share, mountable, NOT bootable. 
+- Object Storage - collection of objects **flat** - Not mountable. not bootable.
+- Storage Performance
+    - IO (block size) X IOPS (input output operations per second) = Throughput
+    - IOPS - You can think as speed at which the engine of a race car uns at, the revolutions per second.
+    - IO - as the size of the wheels of the race car. 
+    - Throughput as the end speed of the race car. 
