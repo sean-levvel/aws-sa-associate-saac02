@@ -732,4 +732,31 @@ Three Main Jobs
 
 # Ec2 Section
 
-## Virtualization 
+## Virtualization 101
+
+## EC2 Architecture
+- Use most often on AWS - a lot of exam questions
+- ec2 instances run on ec2 hosts
+- shared hosts or dedicated hosts 
+- AV resilient service - if the AZ fails, the Ec2 instance could also fail
+- Instances cannot natively move between AV. Hardware, networking, storage, locked inside one AV zone.
+- when to use
+    - application compute app needed
+    - support requirements 
+    - long running compute needs
+    - bust or ready state
+    - monolithic application stacks
+    - migrated applicaiton workloads or DR 
+
+## EC2 Instances Part 1 and 2
+- General Purpose - default - diverse workoads, equal resource ration
+- Compute optimized - media processing, hpc, scientific modelling, gaming, machine learning
+- memory optimized - processing large in-memory datasets, some databse workloads
+- accelerated computing - hardware gpu, field programmable gate arrays (FPGAs)    
+- Storage Optimized - Sequential and Random IO - scaled-out transactional databases, data warehousing, esasticsearch, analytics workloads
+- R5dn.8xlarge
+    - R : Instance Family
+    - 5 : Instance Generation 
+    - 8xLarge : Instance Size
+    - dn - Additional Capabilities 
+- 
