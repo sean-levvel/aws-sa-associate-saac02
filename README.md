@@ -775,3 +775,96 @@ Three Main Jobs
     - IOPS - You can think as speed at which the engine of a race car uns at, the revolutions per second.
     - IO - as the size of the wheels of the race car. 
     - Throughput as the end speed of the race car. 
+
+## EBS Elastic Block Store
+- Block storage - raw disk allocations (volume) - Can be encrypted using KMS
+    - instances see block device, and create file system on this device (ext3/4, xfs/ ntfs)
+- storage is provisioned in ONE AZ (resilient in that AZ) - single point of failure
+- attached to *one ECT instance (or other services) over a storage. 
+- can do multi attach - but the cluster application has to manage it, otherwise overwritten data
+- can be detached and reattached to one instance .. persistent (on restart)
+- snapshots backup into s3 - create volume from snapshot (migrate between az's)
+- physical storage types, different sizes, different performance profiles
+- billed based on GB-month 
+- **no cross AV attachment possible**
+- snapshot volumes to S3 to backup data - then create ebs volume in another AV - also regions
+
+### EBS Volume Types
+- General Purpose SSD - GP2
+- as small as a 1gb or large as 16tb
+- an IO credit is 16KB - IOPS assume 16KB - 1 IOPS is 1 IO in 1 Second
+- 5.4 million IO credits, fills at rate of baseline performance (size / rate)
+- 100 IO credits per second 
+- max 16k 
+- great for boot volumes, dev/test, low-latency interactive apps. 
+- GP3
+    - SSD based - removes the credit bucket arch
+    - standard 3000 iops (3016kb / second 125 MB / second)
+    - 1gb to 16 tb
+    - !20% cheaper
+    - higher max throughput - 1000 mb / second 
+    - virtual desktops, medium sized single instances DB's MSSQL or Oracle
+    - low-latency interactive apps, dev and test, boot volumes.
+
+## EBS Provisioned IOPS SSD
+- 3 types - Io1 / io2 / io2 block express
+- iops are configurable independently of size - 
+- highly performant drives 
+- 256k iops per volume - block express 4/mb/s
+- 4gb to 16 tb - express 64 tb volumes 
+- io1 560IPS / gb max
+- io2 500 iops/gb max
+- express 1000iops/gb max
+- per instance performance: 
+    - io1 - 260k iopps and 7500 mb's
+    - io2 - 160 iops & 4750 mb's
+    - io2 express 260k 7500 mb's 
+
+## EBS HDD Based
+- st1 throughput optimized 
+    - cheap
+    - designed for data to be written or read
+    - 125gb to 16tb
+    - 500 mb / second
+    - big datya, data warehouses, log processing
+- sc1 - cold hdd
+    - cheaper 
+    - in frequent work loads
+    - dont care about performance
+    - 250 max iops 1mb 250 / mbs
+    - 125 gb to 16 tb 
+
+## Instance Store Volumes
+- provide block storage devices - used as the basis for a filesystem
+- physically connected to one ect host
+- each ec2 host has its own instance volume
+- highest storage peformance in AWS
+- included in the instance price 
+- have to attach them at launch time - cant do it afterwards. 
+- view all instance store volume as ephemeral (temporary) data does not move to new instances, nor faster instances
+- D3 = 4.6 gb's throughput 
+- i3 = 16 gb's seconds - nvme storage
+- Exam powerups
+    - local on ec2 hosts
+    - add only at launch time
+    - lost on instance, move, resize, or hardware failure 
+    - high performance 
+    - you pay for it anyway - included in intance price 
+    - temporary 
+
+## EC2 Instance STore vs EBS 
+- Persistance storage = use EBS (avoide instance store)
+- Resilience = EBS
+- Storage Isolated from instance lifecylce = ebs (attach and reattach)
+- Resilience w/ app In-build Replication... it depends 
+- High performance needs...depends
+- Super high perofmrance needs .... instance store
+- cost ..instance store (its often included)
+- Cheap = ST1 or SC1
+- Throughput..streaming..ST1
+- Boot = NOT ST1 OR SC1
+- Gp2/3 up to 16k iops per volume 
+- Io1/2 up to 64k iops (block express 256k iops) 
+- Raid0 + EBS up to 260k IPS (io1/2-BE/GP2/3)
+- More than 260k ips = Instance Store (just keep in mind its not persistant)
+- ![Alt text](/screenshots/InstanceStorevsEBS.jpg?raw=true "Instance store Vs EBS")
