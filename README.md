@@ -901,3 +901,38 @@ Three Main Jobs
     - OS isnt aware of the encryption - no performance loss. 
     - if it states in some way that it needs the OS  needs to have the keys and or needs to be ecnrypted, then you need to performan wholde disk encryption
     
+## Network Interfaces Instance Ip's and DNS
+- In this lesson we deep dive into the Elastic Network Interfaces (ENIs) which can be allocated to EC2 instances - and the DNS, public, private and elastic IPs which can be assigned to those ENIs.
+- primary private ip 
+- 1 or more elastic IP per private ipv4
+- Secondary ENI + MAC = Licensing
+- multi-homed subnets 
+- different security groups - multiple interfaces. 
+- OS never sees the public IPV4. never configure network interface with public IP
+- Public = Dynamic / Start/Stop = Change. Or forced migration.
+- Static ip = elastic IP
+- public dns = private IP in vpc, public IP everywhere else. 
+
+## wordpress demo 1/2
+- systemctl enable httpd - autostart on system startup
+- systemctl enable mariadb - auto start on startup
+
+## Amazon machine Images (AMI)
+- AMI's can be used to launch EC2 instances. 
+- community provided
+- marketplace (can include commercial software) 
+- regional/unique UID e.g ami-0a887e401
+- Lifecycle
+    1. Launch
+    2. Configure
+    3. Create Image
+    4. Launch
+- Exam Powerups
+    - AMI's are in One region - in a particular region - can be used to deploy into all AV's
+    - AMI Baking - creating an AMI from a configured instance + application
+    - AMI can not be edited, launch instance, update configuration and make a new AMI
+    - Can be copied between regions (includes it snapshots)
+    - Remember permissions default = your account - can make the AMI completly public, or individual aws accounts
+    - Will be billed for the EBS snapshots
+
+## AMI Demo 1/2
