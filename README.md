@@ -868,3 +868,36 @@ Three Main Jobs
 - Raid0 + EBS up to 260k IPS (io1/2-BE/GP2/3)
 - More than 260k ips = Instance Store (just keep in mind its not persistant)
 - ![Alt text](/screenshots/InstanceStorevsEBS.jpg?raw=true "Instance store Vs EBS")
+
+## EBS Snapshots
+- Efficient way to backup
+- snapshots are incremential volume copies ot s3
+- new ebs volume = full performance immediately 
+- snaps restore lazily - fetched gradually 
+- requested blocks are fetched immediately 
+- force a read of all data immediately 
+- FSR (fast snapshot restore) - up to 50 per region
+- billing
+    - gigabye - month
+    - used not allocated (only bill what you use)
+    - 
+
+## EBS Snapshot Demo 1 / 2
+- set the UUID on the /etc/fstab for the replicated volume
+- sudo mount .a
+- sudo mount /dev/xvdf /ebstest
+- sudo file -s /dev/**drive name**
+- sudo mkfs -t xfs /dev/nvme1n1 
+- sudo mkdir /instancestore
+
+## EBS Encryption
+- default no encryption is applied. 
+- provides at rest encryption for volumes and snapshots
+- Exam Powerup
+    - Aws accounts can be set to encrypt by default - default CMK or use manually 
+    - eaches volume uses 1 unique DEK per volume
+    - snapshots and future volumes use the same DEK
+    - can not change a volume ot NOT be encrypted. 
+    - OS isnt aware of the encryption - no performance loss. 
+    - if it states in some way that it needs the OS  needs to have the keys and or needs to be ecnrypted, then you need to performan wholde disk encryption
+    
