@@ -984,4 +984,4 @@ Three Main Jobs
     - often less expensive - no large instance premium
     - more granular on how you scale 
 - Exam Power up
-    - - ![Alt text](/08-EC2-Basics/00_LearningAids/Horizontal_Vertical_scaling.png?raw=true "Horizontal Scaling and Verticle")
+    - ![Alt text](/08-EC2-Basics/00_LearningAids/Horizontal_Vertical_scaling.png?raw=true "Horizontal Scaling and Verticle")
