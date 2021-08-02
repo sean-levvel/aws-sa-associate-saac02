@@ -936,3 +936,52 @@ Three Main Jobs
     - Will be billed for the EBS snapshots
 
 ## AMI Demo 1/2
+- configure base image
+- shutdown machine
+- create ami > image and templates 
+- create snapshot automatically on the OS drive
+
+## Instance Billing Models 
+- on-demand 
+    - instances have an hourly rate 
+    - billed in seconds or hourly 
+    - default pricing model
+    - no long-term commitments or upfront payments
+    - new or uncertain application requirements 
+    - short term, spiky, unpreditable workloads which cant tolerate any disruption 
+- Spot Instances
+    - Spot pricing offers up to 90% off vs on-demand
+    - based on spare capacity 
+    - specfify a max price, and if met, instances are terminated. 
+    - apps which can tolerate failure and continue later
+- Reserved Instances 
+    - up to 75% off on-demand for a commitment
+    - 1 or 3 years, all upfront, partial upfront, no upfront. 
+    - reserved in region or az wich capacity reservation 
+    - scheduled reservations
+    - know steady state usage (email/domain/dns/)
+    - lowest cost for app which cant handle disruption 
+    - need reserved capacity 
+
+## Instance Status Checks and Auto Recovery
+- two default checks
+    - system check (power/hardware/network)
+    - Instant Status (OS issues, network configuration )
+    - can auto recover - re-launch a new host 
+
+## Horizaontal and Vertical Scaling
+- Vertical
+    - each resize requires a reboot - disruption 
+    - larger instances often carry a $ premium
+    - there is an upper cap on performance - instance size
+    - No application modification required
+    - works for ALL applications - even monliths 
+- Horzontal Scaling 
+    - Sessions are critical in your app
+    - requires application support or off-host sessions
+    - no disruption when scaling 
+    - no real limits to scaling - other than cost
+    - often less expensive - no large instance premium
+    - more granular on how you scale 
+- Exam Power up
+    - - ![Alt text](/08-EC2-Basics/00_LearningAids/Horizontal_Vertical_scaling.png?raw=true "Horizontal Scaling and Verticle")
