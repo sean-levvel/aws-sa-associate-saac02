@@ -1072,9 +1072,95 @@ Three Main Jobs
     - s3ReadOnlyAccess
     - attach IAM role to the instance. 
 
-## System Manager Parameter store (SSM)
+## System Manager Parameter store (SSM) and DEMO
 - lets you create configuration and secrets 
 - String, StringLists, and SecureString
 - license codes, database strings, usn/pw's
 - plaintext and ciphertext (uses KMS)
-- 
+- app/lambda/ec2 can have access via IAM to the paramater store
+- Demo
+    - paramater store is located Under Systems Manager console
+    - create paramater 
+
+## System and Applicaton Logging on EC2 and DEMO
+- CloudWatch is for metrics
+- Logs is for logging data..CLoudwatch
+- neither nativly capture data inside an instance 
+- the cloudwatch agent is required 
+- needs configuration and permissions 
+- create an IAMRole CloudWatch Logs to the Ec2 instance
+- DEMO
+    - 
+
+## Ec2 Placement Groups
+- physically close together or not - 
+- Cluster - Pack instances close together
+    - highest level of permance possible inside of EC2
+    - Have to be apart of a single AV zone. 
+    - Run same phyical space (same rack sometimes same host)
+    - 10gpbs single stream
+    - Exam
+        - Cant span AZ
+        - Can VPC Peers but impacts performance 
+        - Requires a supported instance type (not all images work)
+        - use the same type of instance (not mandatory) but best practice
+        - launch at the same time
+        - 10gpbs single stream performance
+        - performance, fast seepds, low latency
+- Spread - keeps instance separated
+    - for max amount of availability and resilience
+    - can spread multiple AV zones
+    - seperate isolated infrastructure racks, own networking, power supply 
+    - limit 7 instances per AV
+    - Exam
+        - provides infrastrucutre isolation- each instance runs from a different rack
+        - 7 instances hard limit
+        - not supported for dedicated instances or hosts
+        - usecase: small number of critical instances that need to be kept separated form each other
+        - domain controllers
+        - file servers
+        - its handled by aws of orgnization of the spread placement group
+- Partition - groups of instances spread apart
+    - can be used in multiple AV's
+    - max per 7 per region
+    - partitions - has its own racks - no sharing between parttions
+    - launch as many instances as you want 
+    - aws can auto decide or you can decide 
+    - share this information with toplogly aware information
+        - HDFS, Hbase, Cassandra
+        - make intelligent data replication decisions 
+    - you need to adminiter the partition placement. 
+    - Exam
+        - 7 partitions per AZ
+        - Instances can be placed in a specific partiion or auto placed
+        - partition placement groups ar enot supported for dedicated hosts
+        - great for HDFS, Hbase, Cassandra. 
+
+## Dedicated hosts
+- dedciated to you entirely
+- family e.g a1,c5,m5
+- no instance changes you pay for the host
+- on demand, and reserved options available 
+- host hardware has physical sockets and cores
+- licensing model comes into play for this (via cpu core ect...)
+- A1 - 1 socket - 16 cores
+- R5 (nitro host) 2 sockets 48 cores. Use different sizes at one time
+- Limitations and Features
+    - AMI limits, RHEL, SUSE LInux and Widnows AMI's are not supported
+    - Amazon RDS instances are not supported
+    - Placement groups are not supported for dedicated hosts
+    - Hosts can be shared with other ORG accounts...RAM
+    - only control the hosts that you create / instances. 
+    - general solves licensing issues
+
+## Enhanced Networking & EBS Optimized 
+- USES Single Route I/O Virtulization (SR-IOV) - Nic is virtulization aware
+- physical network inside ec2 host is aware of virtulization
+- allows for higher I/O and Lower host CPU usage
+- More bandwidth faster networking speeds
+- dedicated NIC card basically 
+- available for most ec2 with no charge
+- EBS optmized instances 
+    - its either on or off
+    - block storage over the network
+    - 
