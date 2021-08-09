@@ -1163,4 +1163,5 @@ Three Main Jobs
 - EBS optmized instances 
     - its either on or off
     - block storage over the network
-    - 
+
+# Route 53 (its always DNS)
