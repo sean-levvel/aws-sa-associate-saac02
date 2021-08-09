@@ -985,3 +985,96 @@ Three Main Jobs
     - more granular on how you scale 
 - Exam Power up
     - ![Alt text](/08-EC2-Basics/00_LearningAids/Horizontal_Vertical_scaling.png?raw=true "Horizontal Scaling and Verticle")
+
+## EC2 Instance Metadata
+- Data about the instance that can be used or configured about the system/environment
+- accessable inside ALL instances: http://169.254.169.254/latest/meta-data/
+- Catagory's information 
+    - environment
+    - networking
+    - instance metadata can be used by applications to get IP information
+    - authentication 
+    - user-data
+    - not authenticated - authenticated
+- Demo
+    - curl http://168.254.169.254/latest/meta-data/public-ipv4
+    - query tool
+    - wget http://s3.amazonaws.com/ec2metadata/ec2-metadata
+    - make execute chmod u+x ect-metadata
+    - ./ec2-metadata --help
+
+# Containers and ECS
+## Intro
+- docker image created from scratch or base image. 
+- dockerfile - used to build docker images. 
+- each step creats file system layer. 
+
+## Containers ECS Demo
+- review docker make / build commands
+
+## ECS
+- Elastic Container Service (ECS)
+- Cointainer Definition
+    - image and ports to use
+    - task definition - security (task role), Cointainers, resoruces - what can they access inside aws
+    - task role - IAM role which the TASK assumes
+    - Service - How many copie, HA, Restarts 
+- Service Definition 
+
+## ECS Cluster Mode Types
+- ECS EC2 mode
+    - Runs in a VPC which benifits multiple av zones
+    - Scheduling and Orchestration - Cluster Manager / Placement Engine
+- Fargate Shared Infrastrucure
+    - No visiblity of other customers
+    - same task and service definitions
+    - allocated resources 
+    - still have the VPC on your own account - they auto allocate those form the fargate shared environment
+
+## ECS Cluster Mode Types Demo
+- EC2 vs ECS (EC2) VS Fargate
+    - if you use containers already than use ECS
+    - Make sense if you are just wanting to isolate applications
+    - small overhead of running the tool
+    - Large workload - price concious - EC2 Mode
+        - only if admin overhead is minizmed
+    - Large workload - overhead conscious - Fargate 
+    - Small / Burst workloads - Fargate
+    - batch / Periodic workload - fargate (pay for what you use)
+
+# Advanced EC2
+# Boot strapping EC2 using user data
+- allows EC2 build automation 
+- user data - accessed via the meta-data ip 
+- excuted only once on launch
+- user data is not secure - no passwords or long term credentials
+- lmited to 16kb in size
+- can be modified when instance stopped
+
+## bootstrapping demo
+- 
+
+## Enahanced Bootstrapping with CFN-INIT
+- helper script which is intalled on EC2 OS
+- works with stack updates. 
+- listens to the user-data
+
+## Enhanced bootstrapping demo 
+
+## EC2 Instance Roles and Profile Advanced Ec2 and Demo
+- credentials are inside meta-data
+- iam/security credentials/role-name
+- temporariy secure credentials
+- automatically rotate - always valid
+- should always be used rather than adding access keys into instance
+- Demo
+    - create an IAM role
+    - s3ReadOnlyAccess
+    - attach IAM role to the instance. 
+
+## System Manager Parameter store (SSM)
+- lets you create configuration and secrets 
+- String, StringLists, and SecureString
+- license codes, database strings, usn/pw's
+- plaintext and ciphertext (uses KMS)
+- 
