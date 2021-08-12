@@ -1212,3 +1212,36 @@ Three Main Jobs
 - many records with the same name
 - aims to improve availability by allowing a more active, active approach to DNS.
 - ![Alt text](/screenshots/MultiValueRouting.jpg?raw=true "Multi Value Routing")
+
+## Weighted Routing
+- Weighted routing lets you associate multiple resources with a single domain name (catagram.io) and choose how much traffic is routed to each resource. This can be useful for a variety of purposes, including load balancing and testing new versions of software.
+- can be combined with health checks
+
+## Latency Based routing
+- use latency-based routing when optimising for performance and user experience. 
+- latency-based routing supports one record with the same name in each aws region
+- the record returned is the one wich offers the lowest estimated latency and is healthy 
+
+## Geolocation Routing
+- the location of customers and resources are used for routing
+- us state, country, coninent, or default
+- ip check verify the location of the user
+- only revelant location records
+- ideal for restricting content 
+    - regional restrictions, language specific content, or load balancing accross regional endpoints
+
+## Geoproximity
+- Geoproximity routing lets Amazon Route 53 route traffic to your resources based on the geographic location of your users and your resources. You can also optionally choose to route more traffic or less to a given resource by specifying a value, known as a bias. A bias expands or shrinks the size of the geographic region from which traffic is routed to a resource.
+- aims to calculate the distance between a record and a customer
+- benifits
+    - can define a + or - bias
+    - routing is distance based including bias
+
+## interoperability 
+- This lesson details how Route53 provides Registrar and DNS Hosting features and steps through architectures where it is used for BOTH, or only one of those functions - and how it integrates with other registrars or DNS hosting.
+- r53 normally has 2 jobs - domain registrar and domain hosting
+- allocates 3 name servers
+- creats a zone file
+- communicates with the registry of the TLD
+
+# Relational Database Service (RDS)
