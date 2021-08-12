@@ -1165,3 +1165,50 @@ Three Main Jobs
     - block storage over the network
 
 # Route 53 (its always DNS)
+
+## Public Hosted Zones
+- dns database (zone file) hosted by r53 (public name servers)
+- accessable from public internet and vpcs
+- hosted on 4 r53 name servers specific for the zone
+- resoruce records (RR) created within the hosted zone
+- externally registered omains can point at R53 Zone
+- walking the "dns" tree
+
+## Private Hosted Zone
+- assocated with VPC's and only accessible in those VPC's
+- needs to be assoicated with the private hosted zone
+- split view horizion dns
+    - allows ot created a public hosted zone with the same name
+
+## Cname vs ALIAS
+- cname maps name to another name. 
+- cname can not be used to the TLD record - that requires an alias
+- alias record map a name to an aws resource
+- nake/apex and normal records
+    - api gateway, elb, cloundfront, global accelator and S3
+
+## Routing policies Route 53
+- simple routing supports 1 record per name
+    - does not support health checks
+- each record can have multiple values
+- all values are returned in random order
+
+## Health checks and Demo
+- health checkers are located globally 
+- anything accessible over the internet
+- every 30 seconrds 
+- tcp/http/https/ and with string matching (layer 7)
+- Demo
+    - 
+
+## Failover Routing && Demo
+- multiple records of teh same name. 
+    - primary and secondary 
+- if the target of the health check is unhealthy, any queries return the secondary record of the same name
+- demo
+    - 
+
+## Multi Value Routing
+- many records with the same name
+- aims to improve availability by allowing a more active, active approach to DNS.
+- ![Alt text](/screenshots/MultiValueRouting.jpg?raw=true "Multi Value Routing")
