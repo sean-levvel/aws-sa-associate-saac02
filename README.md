@@ -1245,3 +1245,58 @@ Three Main Jobs
 - communicates with the registry of the TLD
 
 # Relational Database Service (RDS)
+- Refresher 
+    - realational (SQL) (RDBMS)
+        - structure in and between tables - Schema
+        - relationship between tables
+    - non-relational (noSQL)
+        - no one single thing different modles
+        - generally a much more relaxed schema 
+        - relationsihps handled differently
+        - kye-value
+            - a key is uniquer, and has a value - no schema no structure
+            - scaleable really fast
+            - in memory
+        - wide colum store
+            - partition key
+            - DynamoDB - can have a 2nd key
+            - unique to that table - groupings of data
+        - document database
+            - catalogs, user profiles, content management systems
+            - whole documents, deep attribute interactions 
+        - column
+            - interact data based on rows
+            - online transaction processing (OLTP)
+        - column setore (redshift)
+            - all grouped by the column they are in
+            - very inificient for transactional data
+            - great for reporting data and analytics
+        - Graph
+            - relationships between things are formally defined and stored in the database itself along with the data. they are not calculated each and every time you run a query which makes the great for relationsihp driven data.
+            - social media and HR systems
+            - nodes are nouns = objects
+            - relationships are known as "edges" 
+## Acid Vs Base
+- both transaction models (to and from) 
+- CAP theorem - consistency, availability, partition tolerant (choose 2)
+- partition tolerance means that the system can be made of multiple network partitions, and the system continues to opoerate, even if there are a number of dropped messages or errors between these network nodes. 
+- CAP theorem states that "any database product is only capable of delivery a maximum of two of these different factors" 
+- ACID = consistency 
+    - Atomic, Conistenst, Isolated, Durable
+        - Exam Power up
+            - Atomic - ALL or No Components of a transaction Succeeds or Fails
+            - Consistent Transactions move the databse from one valid state to another - nothing in between is allowed. 
+            - Isolated - If multiple transactions occur at once, they dont interfere with each other. Each executes as if its the only one
+            - Durable - once commited, transactions are durable. Stored on non-volatile memory, resilient to power outages or crashes
+            - RDS (relation) limits scaling 
+- BASE = Avalability
+    - Basically Available (BA)
+    - Soft state
+    - Eventually Consistent
+        - Exam Power Up
+            - BA read and write operations are available as much as possible but without any consistency gaurantees - kinda, maybe
+            - base model nosql dabatabses will ensure availability of data by spreading and replicating that data across all of the different nodes of that database. 
+            - soft state: needs to deal with the data that maybe wasnt written moments ago - if we wait long 
+            enough, reads form the system will be consistent 
+
+            
