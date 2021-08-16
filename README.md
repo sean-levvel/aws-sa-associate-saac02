@@ -1299,4 +1299,4 @@ Three Main Jobs
             - soft state: needs to deal with the data that maybe wasnt written moments ago - if we wait long 
             enough, reads form the system will be consistent 
 
-            
+## Databases on EC2
