@@ -1300,3 +1300,135 @@ Three Main Jobs
             enough, reads form the system will be consistent 
 
 ## Databases on EC2
+- generally one or more ec2 instances 
+- some instances to run DB's on EC2 (not normall done)
+    - Access to the DB instance OS
+    - advanced DB option tuning (DBROOT)
+    - DB or DB version AWS doesnt provide
+    - vendor demands
+    - architecture aws doesnt provide
+- small cost if data is in two AV zones (app in Zone a / DB in Zome B)
+- Why you SHOULD NOT do it
+    - admin overhead
+    - Backup / DR Management
+    - EC2 is a Single AZ
+    - EC2 is ON or OFF - no serverless - no easy scaling 
+    - replication - skills, setup time, monitoring and effectieness
+    - performance - aws invest time into optimize and improve. 
+
+## RDS Architecture - Relational Databse Service
+- DBaaS - more accuratly described as: DatabaseServer-As-A-Service
+- Managed Database Instance 1+ databases
+- dont manage the physical hardware or the server os
+- or the database system itself
+- supports MySQL, MariaDB, PostgreSQL, Oracle, Microsoft SQL Server
+- Implimentation
+    - cname only accessible 
+    - db.m5 - db.r5 - db.t3
+    - gp2 should be default
+    - io1 for higher Iops
+    - Magnetic - long term storage use
+    - allocated GB/m 
+    - access is configured via Security group
+
+## RDS Demo
+- 
+
+## RDS High-Availabilty (Multi AZ)
+- RDS enabled synchronous replication 
+- rds only the CNAME at the primary instance - cant hit the standby directly 
+- failover takes 60-120 seconds
+- same region only (other AZz in the VPC)
+- backups taken from Standby (removes performance impact)
+- AZ outage, Priomary failure, manual failver, instance type change, and software patching. 
+
+## RDS Automatic Backup Snapshot and Restore
+- RTO - recovery time objective
+    - time between the DR event and full recovery
+    - influenced by process, staff, tech and documentation
+    - generally lower values cost more
+- RPO - recovery point objective
+    - time between last backup and the incident
+    - amount of maximum data loss
+    - influences technical solution and cost
+    - generally lower values cost more
+- RDS 
+    - Automatic Backups
+        - autmatic backups retention are from 0 to 35 days. 
+    - Manual Snapshots
+        - these dont expire
+    - Both use AWS managed s3 buckets
+    - first snap is full
+    - size of consumed data then onward = incemental
+    - every 5 mins transaction logs are written to s3
+- Examp Powerups
+    - Creates a NEW RDS Instance on Restore
+    - need to update your new connection string (cname)
+    - Snapshots = single point in time, creation time
+    - automated = any 5 min point in time
+    - the latest snapshot is stored, then the full backup is restored via transaction logs and are replayed to bring the DB to desired point in time
+    - restores arnt fast - think about RTO
+
+## RDS Read Replicas 
+-  a-syncronis means read-replica
+- primary first (AZ-B), then sent to ReadReplica (AZ-C)
+- you can have 5x direct read-replicas per DB instance in RDS
+- Each providing an additional instance of read performance
+- read-replicas can have read-replicas but lag starts to bea prblem
+- Global performacne improvements
+- availability improvements 
+    - snapshots and backups improve RPO
+    - RTOS are a problem
+    - RR's off no. 0 RPO
+    - RR's can be promoted quickly - low RTO
+    - works on failure only ( can replicate corruption)
+- Read only until promoted
+- Global availability improvements global resilience
+
+## MultiAZ RDS - snapshots, creating, restoring, failover. DEMO
+- 
+
+## Amazon RDS Security
+- Encryption in transit (ssl/tls) can be mandatory
+    - rds supports ebs volume encryption - kms
+    - handled by host/ebs
+    - aws or customer manged CMK generates data keys
+    - data keys used for encryption operations  
+    - storage, logs, snapshots, and replicas are encrypted
+    - encryption cant be removed. 
+- RDS MSSQL and RDS oracle support TDE
+    - Transparent data encryption (TDE)
+    - handled within the db engine 
+    - RDS oracle supports inegration with Cloud HSM
+    - IAM Authentication 
+        - IAM user and EC2 role - creates token with 15 min validity which can be used in place of a db user password
+
+## Aurora RDS 
+- aurora architecture is very different from RDS
+    - uses a cluster
+    - single prmiary instance + 0 or more replicas 
+    -  no local storage - uses cluster volume
+    - faster provisioning and improved availability and performance
+- works accross a wide range of AV zones - 
+- shared ssd storage max 128 TIB , 6 replicats az 
+- replication happens at the storage level
+- primary is the only write options - the replicas are able to read
+- max 15 replicas 
+- All SSD based - high IOPS, low latency
+- storage is based on what you consumed
+- billed on consumption 
+- High water mark - billed for the MOST used. 
+- Storage which is freed up can be re-used
+- to save costs you would create a new cluster and migrate. 
+- cluster endpoint points to the primary 
+- reader endpoint will point to the replicas, load balance - for READs
+- Costs
+    - no free-tier 
+    - comptue - hourly charge per second 10 min minimum
+    - storage - gb month consumed IO cost per request
+    - 100% db size in backups are included 
+- backups in aurora work in the same way as rds
+- restores create a new cluster
+- backtrack can be used which allow in-place rewinds to previous point in time
+- fast clone makes a new database much faster than copying all the data copy-on-write
+- 
