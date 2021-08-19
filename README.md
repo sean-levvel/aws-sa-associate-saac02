@@ -1431,4 +1431,97 @@ Three Main Jobs
 - restores create a new cluster
 - backtrack can be used which allow in-place rewinds to previous point in time
 - fast clone makes a new database much faster than copying all the data copy-on-write
+
+## Aurora RDS Demo
+- you can migrate from a RDS db to Aurora via a snapshot
+- does not include file system backups on EC2: IE uplaoded files to wordpress /upload folder. Its only the meta data surrounding the application. 
+- will need to enable network file shares to host those static assets 
+
+## Aurora Serverless
+- overhead of managing indivudual database instances.
+- refer to it as aurora provisioned vs aurora serverless 
+- ACU's aurora capacity units - scalable
+- Min and Max ACU - cluster adjusts based on load
+- can go to 0 and be paused
+- consumption billing per second basis
+- same resilience as aurora 
+- picking the minimum and max acu for your cost needs - aws manages the hardware
+- use cases
+    - infrequently used applications
+    - new applications (autoscale based on the incoming work load)
+    - variable workloads (up and down per customer volume IE: sales websites ecommerce)
+    - unpredictable workloads 
+    - development and test databases
+        - can be paused and you are only charged via storage
+    - Multi-tenant applications 
+
+## migrating to aurora Serverless DEMO
 - 
+
+## Aurora Global Databse
+- two or more regions 
+- 2ndary region: up to 16 read only replicas 
+- ~1 second replication 
+- when to use global database
+    - Cross Region DR and BC
+    - Make the secondary clusters the primary for read-write operations
+    - Global Read scaling - low latency performance improvements 
+    - international customer 
+    - replication happens at the storage layer
+    - currently max 5 secondary regions 
+
+## Multi-Master Writes
+- Default aurora mode is single-master
+- Multi-master - all instances are R/W / capable of doing it
+
+
+## Database Migration Service
+- DMS - managed database migration service
+- runs using replication instance 
+- source and destination endpoints point at the physical source and targe databases
+- once endpoint MUST be on AWS
+- Common DB support
+    - MySQL, Aurora, Microsft SQL, MariaDB, MongoDB, PostgreSQL, Oracle, Azure SQL
+- Schema conversion tool SCT can assit with Schema conversion 
+
+# Network Storage
+
+## EFS Architecture and DEMO
+- The Elastic File System (EFS) is an AWS managed implementation of NFS which allows for the creation of shared 'filesystems' which can be mounted within multi EC2 instances.
+- EFS is an implementation of NSFv4
+- private service via mount targets inside a vpc
+- can be access from on-premises - vpn
+- Linux Only Instances 
+- General Purpose and Max I/O Performance
+- Bursting and Provisioned throughput modes
+- Storage Class - Standard and Infrequent Access Classes
+- must install the efs amazon tools for mounting
+- add it to the fstab so that it mounts on boot
+
+# HA and Scaling
+
+## Load Balancing Fundamentals
+- Exam Power Up
+    - clients connect to the load balancer listener
+    - LB connects on your beahlf of 1+ targets 
+    - 2 connections, listener and backend
+    - client abstracted from individual servers
+    - used for high-availability, fault-tolerance and scaling
+
+# Application Load Balancing (ALB)
+- CLB - Classic/Legacy 
+- Application LB
+- Network Load balancer
+- ALB
+    - layer-7 LB - understands Http/s
+    - scalable and highly available
+    - Internet-Facing or Internal
+    - Listens on the outside -> sends to targets (groups)
+    - Bill - Hourly rate and LCU Rate (capacity)
+    - Cross-zone Load balancing 
+    - target groups based on paths or host based off dns
+    - exam power group
+        - targets - target groups which are addressed via rules
+        - Support, EC2, ECS, EKS, Lambda, HTTPS, HTTP/2 and web sockets
+        - ALB can use SNI, multiple SSL certs - host based rules
+
