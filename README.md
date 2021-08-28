@@ -1525,3 +1525,68 @@ Three Main Jobs
         - Support, EC2, ECS, EKS, Lambda, HTTPS, HTTP/2 and web sockets
         - ALB can use SNI, multiple SSL certs - host based rules
 
+## Launch Configuration and Templates
+- allow you to defie configuration of an ec2 instance
+- ami, instance type, storage and key pair
+- networking and security groups
+- userdata & IAM role
+- both are not editable - defined once LT has versions
+- LT provide newer features - including T2/T3
+- lt provide newer features including t2/t3 unlimited placement groups, capacity reservations, elastic graphics 
+- LC's are not editable no versioning 
+- lanch templates can be used to save time when provisioning ec2 instances from the console ui/cli
+
+## Auto Scaling groups ASG 
+- automatic scaling and self healing for ec2
+- uses launch templates or configurations
+- has a minimum, desired and max size
+- provision or terminate intances to keep at desired level
+- there is an attempt when autoscaling, to scale out to all AV's accordingly - max 3 = all three AV zones
+- Manual 
+- scheduled scaling - time based - sales
+- dynamic scaling 
+    - simple - cpu above 50% + 1 / below -1
+    - some need the cloud watch agent installed. 
+    - stepped scaling - bigger +/- based on difference
+    - target tracking - desired aggregate CPU = 40% asg handle it
+- cooldown period helps with cost
+- self-healing - restarts / re-provisions ec2 instance
+- Final points
+    - autoscaling groups are free
+    - only billed via the resources created 
+    - use cool downs to avoid rapid scaling
+    - think about more smaller instances - granularity 
+    - use with ALB's for elasticity - abstraction 
+    - ASG - defines WHEN and WHERE, LT defines WHAT
+
+## NLB Network Load balancer 
+- NLB's are layer 4 only understand TCP / UDP
+- cant understand HTTP/s but are faster ~ ms vs 400 ms for ALB
+- tets - anything about performance/ faster/response time select NLB
+- rapid scaling millions of requests per second
+- 1 interface with static IP per az / elastic IP's
+- can do SSL pass through 
+- can load balance non http/s applications - doesnt care about anything above tcp/udp
+
+## SSL offload and session stickiness
+- bridgeing - listener is configured for https, connection is terminated on the ELB & needs a certificiate
+    - ELB initiates a new ssl connectin to backend instances - instances need ssl certificates and the coptue required for cryographic operations 
+- pass-through
+    - each instances needs to have the appropriate ssl cert installed
+    - no ssl on the NLB
+    - listener is configured for TCP. no encryption or decryption happens on the NLB. COnnection is passed to the backend instance 
+- offload
+    - clients connect to the ELB that needs the ssl
+    - ect instances dont need ssl
+- Connection Stickiness
+    - generates a cookie which locks the device to a single backend
+    - with no sitckiness connections are distributed across all in-service backend instances. unless application handles user state this could cause user logoffs and shopping cart losses
+
+## Gateway load balancers GWLB
+- help you run and scale 3rd party applicances 
+- like firewalls, intriusion detection and prevention systems
+- inbound and outbound traffic (transparent inspection and protetion)
+- GWLB endpoints traffic enters/leaves via these endpoints
+- the GWLB balances across multiple backend appliances 
+- traffic and metadata is tunneled using GENEVE protocol 
+- 
