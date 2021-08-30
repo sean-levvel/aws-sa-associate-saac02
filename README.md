@@ -1589,4 +1589,57 @@ Three Main Jobs
 - GWLB endpoints traffic enters/leaves via these endpoints
 - the GWLB balances across multiple backend appliances 
 - traffic and metadata is tunneled using GENEVE protocol 
+
+# SERVERLESS AND APPLICATION SERVICES 
+
+## Achitecture Evolution Part 1 / 2- monolithic and Tiered 
+- Event Driven Achitecture
+- event producers
+    - no constant running or waiting for things
+    - producers genrate events when something happens
+    - events are delivered to consumers via event router
+    - actions are taken the system returns to waiting
+    - mature event driven only consumes resources while handling events (serverless) 
+- monolithic
+    - fails together
+    - scales together
+    - bills together
+    - one of the least cost effective way
+- Queue - messages can be recieved or polled
+    - FIFO First in First outl
+- worker fleet architecture - aka Youtube. 
+    - upload videos for processing
+    - goes into a queue
+- Microservice Architecture
+    - do individual things well
+
+## AWS Lambda
+- Function as a Service FaaS
+- Event-driven invocation (execution)
+- piece of code in one language
+- only billed for the duration of your function running
+- make it really small but really good at doing 'one' thing
+- should never have stored - not persistant 
+- stateless
+- load data into a lambda runtime environment via aws services dynamoDB and also output data
+- Exam
+    - 15 min execution limit 
+    - new runtime environment every execution - no persistence
+    - execution role provides permissions
+    - load data from other serbvices (eg S3)
+    - store data TO other services (sg / dynamo)
+    - frie tier 1M free requests per month - 400k DB - serconds of compute time per month
+
+## CloudWatch Events and EventBridge
+- key concepts
+    - if x happens or at y times do z
+    - EventBridge is CloudWathc Events V2
+    - a default event bus for the account
+    - in cloudwatch events this is only bus (implicit)
+    - EventBridge can have addtional event busses
+    - rules match incoming events (or schedules)
+    - routes the events to 1+ targets E.G. lambda 
+- event pattern rule - schedule rule -> Target
+
+## CloudWatch EventBridge DEMO Part 1 and 2
 - 
