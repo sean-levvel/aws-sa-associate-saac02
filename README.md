@@ -1577,7 +1577,7 @@ Three Main Jobs
     - listener is configured for TCP. no encryption or decryption happens on the NLB. COnnection is passed to the backend instance 
 - offload
     - clients connect to the ELB that needs the ssl
-    - ect instances dont need ssl
+    - ec2 instances dont need ssl
 - Connection Stickiness
     - generates a cookie which locks the device to a single backend
     - with no sitckiness connections are distributed across all in-service backend instances. unless application handles user state this could cause user logoffs and shopping cart losses
@@ -1643,3 +1643,30 @@ Three Main Jobs
 
 ## CloudWatch EventBridge DEMO Part 1 and 2
 - 
+
+## API Gateway
+- Key Concepts
+- Create, Publish, Monitor and Secure APIs as a service
+- Billed based on number of API calls, Data Transfer and addtional performance features such as caching
+- can be used directly for serverless architecture
+- or during architecture evolution
+
+## Serverless Architecture 
+- serverless isnt one single thing
+-  manage few if any servers - low overhead
+- small and specialized functions 
+- Stateless and Ephemeral environments - duration billing
+- Event-driven..consumption only when being used. 
+- FaaS is used where possible for compute functionality
+- Managed services are used where possible
+
+## Simple Notification Service (SNS)
+- public aws service - network connectivity endpoint
+- pub/sub 
+- cordinates sending and delivery of messages
+- messages are 256k payloads
+- sns topics are the base entity of sns - permissions and configuation
+- a publisher sends messages to a TOPIC
+- topics have subscribers which receive messages
+- e.g. http(s), email-json, sql, mobile push, sms messages & lambda
+- ![Alt text](/15-Serverless-and-AppServices/00_LearningAids/sns.png?raw=true "SNS Diag") 
