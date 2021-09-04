@@ -1670,3 +1670,31 @@ Three Main Jobs
 - topics have subscribers which receive messages
 - e.g. http(s), email-json, sql, mobile push, sms messages & lambda
 - ![Alt text](/15-Serverless-and-AppServices/00_LearningAids/sns.png?raw=true "SNS Diag") 
+
+- Offers Delivery status 
+- delivery retries - reliable delivery
+- HA and scalable (region)
+- can include SSE server side encryption 
+- can be cross-account via topic policy 
+
+## Step Functions - Long running serverless workflows
+- Some limitations with Lambda
+    - Lambda is FaaS
+    - 15 min max execution 
+    - can be chained together
+    - gets messy at scale
+    - runtime envioronments are stateless
+- State machines
+    - serverless workflow START - States - END
+    - States are *things* inside this workflow
+    - maximum duration is 1 year
+    - standard workflow and express workflow
+    - Generally used for backend programming 
+    - Amazon States languages - json tempalte
+- What are states?
+    - SUCCEED and FAIL
+    - WAIT
+    - CHOICE  - take a different path based on input
+    - PARALLEL - parallel branches inside the state machine
+    - MAP - accepts a list of things, or order - with certain set of rules
+    - TASK (lambda, batch, DynamoDB, ECS, SNS, SQS, Glue, SageMaker, EMR, Step Functions)
