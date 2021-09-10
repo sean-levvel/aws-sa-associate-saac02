@@ -4,7 +4,6 @@ Course Files for AWS Certified Solutions Architect Certification Course (SAAC02)
 If you find something wrong feel free to let me know at  saac02-feedback@cantrill.io
 - or -
 if you want to help fix something, feel free to submit a PR with your suggested fixes and I'll review
-
 If you want to use any portion of this repo in your own projects, just make sure you are aware of the license terms ... and I'd appreciate a friendly heads-up :)
 
 
@@ -1758,3 +1757,44 @@ Three Main Jobs
         -
 
 
+# Security, Deployoments and Operations 
+
+## AWS Secrets Manager 
+- It does share functionality with paramater store
+- designed for secretes (passwords, api keys)
+- usable via console, cli, api, or SDK's 
+- supports automatic rotation this uses lambda
+- directly integrates with some AWS products (RDS)
+- Secrets are encrypted using KMS
+- Secretes, Key Rotation, RDS, = almost certain to be using Secrets manager 
+
+## AWS Shield and Web application Firewall WAF
+- Shield provides aws resources with DDoS protection 
+- Shield Standard - free - with Route53 and CloudFront
+    - layer 3 and layer 4 ddos attacks
+- Shield Advanced - $3000 per month
+    - EC2, ELB, CloudFront, Global accelerator and R53
+    - DDoS Response Team and Financial Insurance  
+- WAF
+    - Layer 7 (http/s) Firewall
+    - TCP, UDP, 
+    - SQL Injections, Cross-site scripoting, Geo blocks, Rate awareness
+    - webacl - web access control list integrated with ALB, API Gateway and CloudFront
+    - Rules are added to a webacl and evaluated when traffic arrives
+- works well when you use both services together. 
+- Terms: DDoS with shield
+- Layer 7 filtering, http filtering, https filtering, with WAF
+
+## Cloud HSM
+- with KMS - aws manage.. shared but separated 
+- hardware security module - HSM
+- you can run your HSM on premis 
+- True single tenant hardare security module
+- aws provisioned fully customer managed 
+- HSM **FIPS 140-2 Level 3 (KSM is L2 overall, some L3)**
+- access it with industy standard API's
+    - **PKCS#11** Java Cryptography Extensions **JCE** Microsoft **CryptoNG CNG** 
+    - KMS can use CLoudHSM as a custom key store, CLoudHSM Integration KMS
+- HA need multiple HSM's - create a cluster one in each AV and VPC
+    - get an elastic network interface
+    - 
