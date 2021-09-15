@@ -1757,6 +1757,12 @@ Three Main Jobs
         -
 
 
+# Global COntent Delivery and Optimization
+
+## CloudFront Architecture Basics 
+
+
+
 # Security, Deployoments and Operations 
 
 ## AWS Secrets Manager 
@@ -1797,4 +1803,32 @@ Three Main Jobs
     - KMS can use CLoudHSM as a custom key store, CLoudHSM Integration KMS
 - HA need multiple HSM's - create a cluster one in each AV and VPC
     - get an elastic network interface
-    - 
+- aws provision hsm but have no access to keys
+- AWS CloudHSM VPC, managed by AWS not the customer
+- Points / Exam / Use Cases
+    - no native integration between cloud hsm and aws products
+    - Offload the SSL/TLS processing for web servers
+    - Enable Transparent Data Encryption (TDE) for Oracle Databases
+    - Can be used to Protect the private keys for an issuing Certificate Authority
+    - Hardware security model
+    - anything that does require AWS integration DO not use HSM
+    - HSM **FIPS 140-2 Level 3 (KSM is L2 overall, some L3)**
+
+## AWS Config
+- Two main jobs 
+    - record configuration changes over time on resources
+    - Auditing of changes, complicance with standards
+    - does not prevent changes happening...no protection
+    - Regional Service ... Supports cross-region and account aggregation
+    - Changes can generate SNS notifications and near realtime events via EventBridge & Lamdba 
+    - can apply fixes to remidate any issues via **CONFIG RULES**
+
+## Amazon Macie
+- Data security and data privacy Service
+- Discover, Monitor , and Protect Data ... Stored in S3 Buckets
+- Automated discovery of PII, PHI, Finance
+- Managed **Data Identifiers** and Built-In Machine Learning Patterns
+- Can create custom data - proprietary regex based. 
+- Macie create discovery jobs
+- Can integrate with Security hub and pass notifications to Event Bridge
+- Multi Account Architecture 
