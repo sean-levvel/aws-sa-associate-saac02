@@ -459,7 +459,7 @@ Three Main Jobs
 - Buckets aren't encrypted, objects are
     - client-side encryption
     - server side encryption (both are at rest on S3)
-    - Both use in-transit encryption
+    - Both use in-transit `encryption
 - Server side encryption
     - Server-Side Encryption with Customer Provided Keys (SSE-C)
         - Need an plain text object and a key
@@ -1754,14 +1754,264 @@ Three Main Jobs
         - allow you to offer access to Temporary AWS Credentials
         - Unauthenticated Identities - Guest Users
         - Federated Identities - SWQP - Google, Facebook, Twitter, SAML 2.0 and user pool for short term aws credentials to access AWS Resources
-        -
+
 
 
 # Global COntent Delivery and Optimization
 
 ## CloudFront Architecture Basics 
+- Origin - the source location of your content
+- Distribution - the configurion unit of cloudfront
+- Edge Location - Local infrastructure whic hosts a cache of your data
+- Regional Edge Cache - larger version of an edge location. provides another layer of cache
+- S3 buckets accessed configuration by
+    - OAI & Bucket Policies
+
+## Aws Certificate Manager
+- data is ecnrypted in-transit
+- certificates provide identity
+- signed by a trusted authority
+- create, renew, deploy certificates with acm
+- Supported AWS Services ONLY (e.g. CloudFront and ALB's Not EC2)
+
+## Securing CF and S3 using OAI (cloud front)
+- Origin Access Identity (OAI)
+- Associate the OAI to the CF/S3 orgin / Bucket Policy / Explicit allow for the OAI
+
+## OAI Demo
 
 
+## Cloudfront Lambda@Edge
+- You can run lightweight lambda at edge locations
+- adjust data between the viewer & origin
+- Curretnly supports nodejs and python
+- run in the aws public space (NOT VCP)
+- Layers are not supported
+- Different limnits vs normal lamnda functions
+- Couple of examples
+    - A/B Testing - viewer request function
+    - Migration between S3 origins - origin request
+    - Different objects based on device - origin request
+    - Content by Country - Origin Request
+    - review https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-examples.html#lambda-examples-redirecting-examples
+
+## Global Accelerator 
+- Cloud Front vs. Global Accelerator
+    - cloudfront only works on http/https cache
+    - GA - 2x anycast IP addresses 
+    - **Anycast IP's** allow a single IP to be used in multiple locations. Routing moves traffic to closest location
+    - from the edge data transits globally accross the aws backbone network. less hops directly under aws control, better performance
+    - GA moves the AWS network closer to the client via location
+    - GA is a network product, works on TCP and UDP
+    - caching = Cloud Front
+    - TCP/UDP = Global Accelerator
+    - GA does not cache anything
+
+# Advanced VPC Networking
+
+## VPC Flow Logs
+- Capture packet metadata..not packet contents 
+- applied to a vpc, subnet or all network interface directly 
+- subnet - interfaces in that subnet
+- interface directly
+- VPC flow logs are not realtime
+- logs can be sent to s3 or cloudwatch logs. 
+- if you see two log entries one which accepts something and one which rejects something, then generally that can be an interaciton between security groups and network ACL's
+- they dont log all traffic
+
+## Egress - only Internet Gateway
+- internet gateway which only allows connections to be initiated from inside a VPC to outside. 
+- NAT allows private IP's to access public networks
+- without allowing externally initiated connections (IN)
+- With IPV6 all IP's are public
+- Egress-only is outbound-only for IPV6
+- no inbound connections, only outgoing
+
+## VPC Endpoint Gateway (Gateway Endpoint)
+- Gateway Endpoints
+    - provide private access to S3 and DynamoDB - allow a private only resource VPC to access S3 and DynamoDB
+    - Prefix List added to route table => Gateway Endpoint
+    - Highly Available (HA) across all AZ's in a region by default
+    - Endpoint Policy is used to control what it can access
+    - grand to certain S3 buckets, with policies 
+    - cant access cross-region - same region only 
+    - Example: private vpc that want access to S3/Dynamo
+    - Prevent Leaky Buckets - S3 buckets can be set to private only by allowing access ONLY from a gateway endpoint
+
+## Interface Endpoints
+- Provide private access to AWS public services
+- anything NOT s3 and DynamoDB
+- crucial difference - Added to specific subnets - an ENI - NOT HA
+- for HA .. add one endpoint, to one subnet, per AZ used in the VPC
+- Can use security groups to control access to that endpoint (cant do this with gateway endpoints)
+- TCP and IPv4 ONLY
+- Uses PrivateLink, product that allows external services to be injected into your VPC, either from AWS or from third parties.
+- Endpoints provides a new service endpoint DNS
+- Endpoint Regional DNS name - one single dns name that works whatever AZ you're usint to access the interface endpoint
+- Each AZ gets a Zonal DNS which resolves to that one specific interface in that one specific AV.
+- PrivateDNS overrides the default DNS for services
+
+
+## VPC Endpoints Demos 1-3 - Review
+- Accessing S3 using gateway
+- Using SNS from private VPC using Interface Endpoints
+- Implimenting an Egress Only Internet Gateway
+
+## VPC Peering
+- VPC peering is a software define and logical networking connection between two VPC's
+- They can be created between VPCs in the same or different accounts and the same or different regions.
+- Direct encrypted network link between TWO vpcs (no more than two)
+- (optional) public hostnames resolve to private IP's
+- VPC peering does not support transitive peering
+- Routing configuration is needed, SG's and NACLs can filter
+- cant have overlapping CIDR ranges
+
+## VPC Demo - review. 
+
+# Hybrid Environments and Migration
+
+## Border Gateway Protocol 101 
+- Autonomous System (AS) - Routers contolled by one entity a networking in BGP
+- ASN (autonomous sytem numbers) are unique and allocated by IANA (0-65535), 64512 - 65534
+- BGP operates over tcp/179 
+- not automatic - peering is manually configured
+- BGP is path-vector protocol it exchanges the best path to a destination between peers ... the pat is called aspath
+- iBGP - internal eBGP - External
+- BGP exchanges the shortest ASPATH between peers. 
+
+## AWS Site-to-Site VPN 
+- logical connect between a VPC and on-premis network encrypted using IPSec, running over the public internet
+- Full HA - if you design and implement it correctly. 
+- Quick to provision ... less than an hour
+- Virtual Private Gateway (VGW)
+- Customer Gateway (CGW)
+- VPN connection bwetween the VGW and CGW
+- Static VPN uses static routes \ uses IPSEC
+- Dynamic VPN - BGP is configured on both the customer and AWS side USING ASN. Networks are exchanged via BGP. Multiple VPN connections provide HA and traffic distribution
+- Considerations
+    - Speed Limitations ~ 1.25 GBPS
+    - Latency Considerations - inconsistent, public internet
+    - Cost - AWS Hourly cost, GB out cost, data cap (on premises)
+    - Speed of setup - hours ... all software configuration 
+    - can be used as a backup for direct connect
+    - can be used with direct connect
+
+## Demo VPC and on prem VPN 1 and 2
+
+## Direct Connect
+- a 1 gbps or 10gbps network port into aws
+- at a DX (1000-Base-LX or 10GBASE-LR)
+    - Uses single mode fiber optics
+    - has no encryption by default
+- conceptionally single fiber optic cable - connected to your buisness premis
+- multiple virtual interfaces (VIFS) over one DX
+- Private VIF (VPC) & PUblic VIF (Public Zone Services)
+- can take weeks or months for the physical cable to be installed into your equipment 
+- Exam
+    - Takes much longer to provision vs VPN
+    - DX Port provisioning is quick ... the cross-connect takes longer
+    - extension to premises can take weeks/months
+    - Use VPN first.. then replace with DX (or leave as a backup)
+    - Faster 40 GBPS with aggregation with Direct Connect
+    - Low consistent latency, doesnt use business bandwidth
+    - NO BUILT IN ENCRYPTION
+
+## Direct Connect Resilience and HA
+- aws regions have multiple DX locations - 
+- Direct Connect Locations - Customer Premises
+    - receive a port from the DX Router
+- AWS Region between Direct Connect Location are always redundant
+- Exam
+    - Physical technology
+    - will need to build HA into the solution on the DX location and Customer Premiseses 
+
+## AWS Transit Gateway TGW
+- Network Transit Hub to connect VPCs to on premises networks
+- Significantly reduces network complexity
+- single network object - HA and Scaleable
+- Attachment to other network types
+- works with VPC, Site-to-Site VPN & Direct Connect Gateway
+- saves complexity by reducing each VPC having a direct site-to-site to the customer gateway device
+- we can also peer directly to other transit gateway's 
+- you can also use direct connect with transit gateway
+- Exam powerup
+    - Supports transitive routing
+    - can be used to create global networks
+    - share between accounts using aws RAM
+    - peer with different regions .. soame or cross account
+    - less complexity vs w/o TGW
+
+## TGW Demo 1 and 2
+- 
+
+## Storage Gateway
+- Hybrid Storage Virtual Applicane (on-premises*)
+- extension of file and volume storage into AWS
+- Volume Storage backups into AWS
+- Tape backups into AWS
+- 3 modes
+    - Tape Gateway (VTL) Mode 
+        - stores virtual tapes on S3 and Glacier 
+    - File mode - SMB or NFS
+        - Storage backed by S3 objects 
+    - Volume Mode (Gateway Cache/Stores) - isci
+        - Block storage backed by S3 and EBS Snapshots
+- File Gateway 
+    - SMB Sahres can integrate with AD for File authorization 
+    - Lifecycle polices can automatically control storage classes
+    - Files are stored ot shares using NFS or SMB
+    - mapped directly 1:1 as S3 objects
+    - Use file mode either if you need additional capacity or if you want to begin decommissioning on-premises storage infrastrucuture.
+- Tape Gateway
+    - connects to the media changer / tape drive over iSCSI
+    - https public endpoint to S3, anything archived gets moved into VTS in Glacier
+    - Virtual tape 100 Gib => 1 PB (peta byte)
+- Volume Gateway (Stored)
+    - Can create up to 32 16TB per volume
+    - Primary data is stored on Premises
+    - backup data is asynchronously replicated to AWS
+    - https public endpoint EBS snapshots
+    - works great for DR and Migrations
+- Volume Gateway (cached)
+    - Cache moded is designed  for extension into AWS when your capacity is limited or when you are looking to decommission your existing infrastructure. 
+    - volumes are made available via iSCSI for network based servers to access single connection per volume
+    - Primary data is stored in AWS. Data which is access frequently is cached locally, ideal for extending storage into AWS
+    - Primariy data is stored on a S3 backend volume (AWS managed bucket) snapshots are stored as Stadards Elastic block storage
+    - 1PB tocal capacity - 32TB per volume, 32 volumes Max
+
+## Snowball, Snowball Edge, and Snomobile
+- Key Concepts
+    - move large amounts of data IN and OUT of aws. 
+    - when and where you need to use the products
+    - Physical storage suitecase or truck
+    - ordered from AWS Empty, Load Up, Return
+    - Ordered from AWS with data, empty & return
+    - For the exam which to use
+- Physical Process
+    - order a device and has KSM local at rest encryption
+    - 50tb to 80 TB capacity 
+    - 1 Gbps or 10gbps network
+    - 10 TB to 10 PD ecomincal range (multiple devices)
+    - only storage
+- Snowball Edge
+    - both storage and compute
+    - Larger capacity vs. snowball
+    - 10gbps 10/25 (SFP) 45/50/100 GBPS (QSFP+)
+    - Storage Optmized (with EC2) - 80 TB, 24 vCPU, 32 Gib Ram, 1 TB SSD
+    - Compute Optimized - 100 TB + 7.68 NVME, 52vCPU and 208GIB Ram
+    - Compute Optimized with GPU as well (modeling, sci analysis)
+- Snowball Edge vs Snowball
+    - Snowball is for storage only
+    - Edge is for compute, or if you need faster networking 
+- Snowmobile 
+    - Portable DC within a shipping container on a truck
+    - Literally a truck in a shipping crate
+    - Ideal for single location when 10 PB is required
+    - can store up to 100 PB per snomobile
+    - Expect into data center power and network
+    - not economical if you have MULTIPLE sites
+
+## AWS Directory Service
 
 # Security, Deployoments and Operations 
 
