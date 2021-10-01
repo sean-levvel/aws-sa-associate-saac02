@@ -2185,3 +2185,171 @@ Three Main Jobs
 - Multi Account Architecture 
 
 # NOSQL Databases & DynamoDB
+
+## DynamoDB - Architecture 
+- DynamoDB is a NoSQL fully managed Database-as-a-Service (DBaaS) product available within AWS.
+- Key/Value & Document
+- No Self-managed servers or infrastructure 
+- Manual/Automatic provisioned performance In/Out or On-Demand
+- Highly Resilient .. accross AZ's and optional global
+- replicated accross multiple storage nodes automaically 
+- stored on SSD, backups, point-intime recovery, data encrypted at rest
+- event-driven integraiton .. do things when data changes
+- Database TABLE as a Service
+- Arch
+    - table is a grouping of items with the same primary key
+    - Capacity means speed in Dynamo Db
+    - WCU = 1kb per second (writes capacity unit)
+    - RCU - 4 kb per second per table (read capacity unit)
+- backups
+    - on-demand backups - retained until manually removed
+    - same or cross region
+    - point in time recovery
+        - not enabled by default
+        - continous record of changes allows replay to any point in the window
+- Exam
+    - NoSQL preference DynamoDB in the exam
+    - Relational Data .. generally not DynamoDB
+    - Key/Value.. preference DynamoDB
+    - Access via console, CLI api 'no sql'
+    - Billed based on RCU/WCU, Storage and features
+
+## DynamoDB Operations, Consistency and Performance
+- two modes
+    - on-demand - unknown,m unpredictable, low admin
+    - on demand -price per misslion R or W units
+    - Provisioned RCU and WCU set on per table basis
+    - every operation consumes at least 1 RCU/WCU
+    - 1 rcu is 1 x 4KB read operation read per second
+- Query 
+    - partition key value
+    - Query accepts a single PK value and optionally a SK or range. Capacity consumed is the size of all returned items. Futher filtering discards data - capacity is still consumed. 
+    - Can only query on PCK or PK and SK
+- Scan
+    - scan moves through the table consuming the capacity of every item. you have complete control on what data is selected, any attributes can bse used and any filters applied but scan consumes capacity for every ITEM scanned through. 
+- Consistensy modes different consistency modes for read operations
+    - Eventually consistent - scales better
+    - Strongly / Immediately Consistent - more costly to achieve
+- WCU Calculation
+    - If you need to store 10 items per second 2.5k averge size per ITEM
+    - WCU per item - Round Up (Item size / 1KB ) (3)
+    - multiple that by average number per second (30) = WCU Required (30)
+- RCU CALCULATION
+    - 10 ITEMS PER SECOND 2.5K AVERAGE SIZE
+    - Cacluate RCU per item = Round up (item Size / 4Kb)(1)
+    - multiply by average read ops per second (10)
+    - = Strongly Consistent RCU required (10)
+
+## DynamoDB Streams and Lamnda Triggers
+- Time ordered list of Itme Changes in a table
+- 24-Hour rolling window
+- enabled on a per table basis
+- Records inserts, Updates, and Deletes 
+- Different view types influence what is in the stream
+- Serverless way
+    - Trigger concepts
+    - ITEM changes generate an event
+    - that event contains the data which changed
+    - a action is taken using that data
+    - aws = streams + lambda
+    - Reporting & Analytics 
+
+## DynamoDB Indexes (review)
+- Primary KEY (PK) Secondary Key (SK)
+- Query is the most efficient operation in DDB
+- Query can only work on 1 PK value at a time
+- Indexes are alternative views on table data
+- Different SK (LSI) or Different PK and SK (GSI)
+- some or all attributes (projection)
+    - Local secondary Indexes
+    - Alternative view for a table
+    - MUST be created with table
+    - 5 LSI's per base table
+    - Shares the RCU and WCU with the table
+    - Attibutes - All, keys_only & Include
+
+## Dynamo DB Global Tables 
+- Global tables provides multi-master cross region replication
+- Tables are created in multiple regions and added ot the same global table
+- last writer wins is used for conflit resolution 
+- Read and writes can occur to any region
+- sub second replication between regions
+- Global HA and Global DR/BC
+
+## DynamoDB Accelerator (DAX)
+- one set of API calls using one SDK
+- appljicaiton uses dax sk and makes a single call for the data which is returened by dax, dax returns the data or makes the call for Dynamo
+- designed ot be deployed into multiple AV zones in the VPC
+- primary node, (read/write) then replicates out to the other AZ's
+- Two caches
+    - Item cache hodles results (batch)GetItem
+    - query cache holds data based on query/scan paramaters
+    - in-memory cache - scaling. much faster reads, reduced costs
+    - scale up and scale out (bigger or more)
+    - Supports write-through
+    - Dax Deployed with an VPC
+
+## Amazon Athena
+- Serverless Interactive Querying Servbice
+- Ad-hoc queries on data - pay only data consumed. 
+- 
+Schema-on-read table-like translation
+- orginal data never changed - remains on s3
+- Schema translates data => relatioal-like when read
+- output can be sent to other services
+- Arch
+    - starts source data on S3 - read only
+    - XML/JSON/CSV/ARVO/PARQUET/CloudTrail/VPC-FLowLogs
+    - inside the product you create the scema
+    - then you define the tables
+    - athena you are defining a way to get the orginal data and present it in the way that you want to be able ot run queries against it
+    -  Examp - questions which talk about data being stored inside s3, and if the data is structured, or semi-structured or unstructured and you need to perform ad hoc queries where you only charged for performing those queries, then athena should be the product. 
+
+## ElastiCache
+- In-memory database .. high performance requirements
+- Manged redis or memcached as a service
+- can be used to cache data for read havy workloads with low latency requirements
+- reduces database workloads (expensive)
+- cost effective, help reduce reads saving money
+- can be used to store session data (stateless servers)
+- **Requires application code changes to use elasticache** 
+- if data inst in the cache, then it needs to check the underlying database and applicaiton need ot be able to write data and understand acache invalidation. 
+- two different engines
+    - both
+        - sub millisecond access
+    - Memcached - 
+        - simple data structures
+        - no replication
+        - multiple nodes (sharding)
+        - no backups (no persistance)
+        - Multi-threaded
+    - redis
+        - advanced structures
+        - lists/sublists
+        - stores order of data / improves performance
+        - replication to multi-az - scale reads
+        - supports backups and restores
+        - transactions - multiple operations as one
+
+## Redshift Architecture 
+- petabyte-scale data warehouse
+- designed for reporting and analytics 
+- OLAP (Column based) not OLTP (row/transaction)
+- captures stores and processes data in realtime. 
+- OLAP - complex queries from OLTP systems. 
+- pay as you use 
+- direct query s3 using Redshift spectrum
+- direct query other DB's using federated query
+- Server based (not serverless)\
+- redshift runs with multiple nodes (private)
+- not HA
+- Leader node - query input planning and aggregation
+- compute node - performing queries of data
+
+
+## Redshift Resilience and Recovery
+- only runs in one AV - 
+- utilize s3 for backups in form of snapshots
+- automatic backups every 8 hours OR 5 gb of change - 1 day retention up to 35 days
+- incrimental 
+- 
