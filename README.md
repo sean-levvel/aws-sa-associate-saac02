@@ -1944,6 +1944,107 @@ Three Main Jobs
 ## TGW Demo 1 and 2
 - 
 
+## Directory Service
+- Stores objects, Users, Groups, Comptuers, Servers, File Shares) with a structure 
+- multiple tress can be grouped into a forest 
+- Commonly used in windows environments
+- Usn/Pw's
+- AWS managed implementation
+- Runs within a VPC
+- provides HA deploy into multiple AZ's
+- Some AWS services need a directory; EG Amazon Workspaces
+- can act as a proxy back to on premis
+- can be isolated
+- Architecture
+    - Simple AD mode - cheapest
+        - opensource directory thats based on Samba 4
+        - integrates with aws services - ect2 instances, SimpleAD and worksapces can use it for login management 
+        - 500-5,0000
+        - designed to be used in isolation 
+    - Managed Microsoft AD mode
+        - on-premises and aws
+        - can create a trust with vpn between your aem and onprem directory 
+        - Microsoft AD - on premis and aws, they mean managed microsoft AD
+    - AD Connector
+        - its only a proxy, to integrate with AWS services- aka amazon workspaces. 
+        - so if the VPN goes down, so will your authentication services
+- picking between modes
+    - Simple AD - the default. simple requirments. a directory in AWS
+    - Microsoft AD- applications in AWS which need MS AD DS, or you need to trust AD DS
+    - AD connector - use aws services which need a directory without storing any directory info in the cloud...proxy to your on-premises directory. 
+
+## AWS DataSync
+- Data Transfer Service to and from aws
+- Migrations, Data Processing Transfers, Archival/Cost Effective Storage or DR/BC
+- designed to work at huge scale
+- 10 gigabits per second of data transfer
+- keeps metadata eg permissions/timestamps
+- built in data validation
+- Scalable - 10gbps per agent ~100TB per day
+- Bandwidth Limiters (avoid link saturation)
+- Incremental and Scheduled Transfer options
+- Compression and Encryption
+- Automatic Recovery from transit errors
+- AWS Service integraiton - S3, EFS, FSx
+- Pay as you use service... per GB cost for data moved.
+- Arch
+    - DataSync agent runs on a virtualisation platform such as VMWare and communications with the AWS dataSync Endpoint
+    - NFS/SMB SAN/NAS
+    - Schedules can be set to ensure transfer of data occurs during or avoding specific time periods 
+    - TO or From AWS S3, EFS, FSx, NFS, SMB
+    - Task - a job within datasync defines what is being syced, how quickly, from where and to where
+    - agent - software used to read or write to on premises data stores using NFS or SMB
+    - Location - every task ahs two locations; from/to (NFS/SMB/EFS Amazon FSx)
+
+
+## FSx for Windows File Serevers
+- fully managed native windows file servers (file shares)
+- Designed for Integration with windows environments
+- integrates with directory service or self-managed AD
+- HA system / Single or Multi-AZ within a VPC
+- On-demand and Scheduled Backups
+- Accessible using VPC, Peering, VPN, Direct Connect 
+- native windows file system, supports de-duplication, distrubuted file system DFS, KMS at rest encryption and enforced encryption in-transit
+- Performance
+    - 8mb/s 2gb's, 100k IOPS <1ms latency
+- Key Features
+    - VSS - User-Driven Restores
+    - Native File System Accessible over SMB
+    - Windows Permission Model
+    - Supports DFS .. scale-out file share structure 
+    - Managed - no file server admin
+    - Integrates with DS and your own directory
+
+## FSx for Lustre
+- Managed Lustre - Designed for HPC - Linux (Clients POSIX)
+- Machine Learning, Big Data, Financial Modelling
+- 100s GB/s throughput & Sub millisecond latency 
+- Deployment types - Persistent or Scratch
+- Scratch - Highly optimised for short term no replication and fast
+- persistent - longer term, ha **in one az**, self-healing
+- Accessible over VPN or Direct Connect
+- Arch
+    - Data is 'lazy loaded' from S3 (S3 linked repository) into the file system as its needed
+    - Luster does "data"
+- Lustre works...
+    - Metadata stored on Metadata Targets (MDTs)
+    - Objects are stored on called object storage targets (OSTs)
+    - Baseline performance based on size
+    - Size - min 1.2Tib then increments 2.4 TIB
+    - for Scratch - Base 200MB's per TiB of storage
+    - persistent offers 50mb's, 100mb/s and 200mbs per TiB of storage
+    - Burst up to 1300 MB's per TiB (Credit System)
+- Arch Cont 
+    - FSX uses a client managed VCP
+    - connects via ENI (Elastic network Interface)
+    - Scratch is designed for pure performance 
+    - Short term or temp workloads
+    - no ha ... no replication 
+    - larger file systems means more servers, more disks, and more chance of failure
+    - persistent has replication within one AZ only
+    - auto-heals when hardware failure occurs
+    - you can backup to s3 with BOTH! (manual or automatic 0-35 day retention)
+
 ## Storage Gateway
 - Hybrid Storage Virtual Applicane (on-premises*)
 - extension of file and volume storage into AWS
@@ -2082,3 +2183,5 @@ Three Main Jobs
 - Macie create discovery jobs
 - Can integrate with Security hub and pass notifications to Event Bridge
 - Multi Account Architecture 
+
+# NOSQL Databases & DynamoDB
