@@ -2353,3 +2353,22 @@ Schema-on-read table-like translation
 - automatic backups every 8 hours OR 5 gb of change - 1 day retention up to 35 days
 - incrimental 
 - 
+
+# Exam prep
+- Tutorials Dojo Exam Practices. 
+
+## Question Technique
+- Questions are 1-2 lines of premable (scenario) - skip this
+- Then the question itself - focus on the keywords
+- 4-5 answers..multi choice or multi-select
+- at the associate level - generally ansewr is simple right and wrong
+- occasionally 'most siutable' from some right answers
+- Generally 1 or 2 answers which can be excluded, locate those first. 
+- Most questions have an overall criteria or restriction
+- cost effective
+- Cash strapped - 
+- Best practice - via instance role
+- Highest performance - inverse of cost effiective / cash
+    - ebs volumes or instance store volumes - direct connect over site to site
+- timeframe restriction
+    - one week to perform an impliemntation - no direct connect. 
